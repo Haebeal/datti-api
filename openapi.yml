@@ -1,0 +1,57 @@
+openapi: 3.0.0
+info:
+  title: Datti API
+  version: 0.0.1
+  description: "割り勘管理サービスDattiのWebAPI"
+servers:
+  - url: https://datti-api-prod.fly.dev
+    description: 本番環境のAPIエントリーポイント
+  - url: https://datti-api-dev.fly.dev
+    description: 開発環境のAPIエントリポイント
+security:
+- bearerAuth: []
+
+paths:
+  /me:
+    post:
+      tags:
+        - Users
+      summary: ユーザー情報の登録
+      description: ユーザー情報の登録
+      responses:
+        '201':
+          description: 正常処理のレスポンス
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: アクセストークンによる認証のレスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: {type: string, example: "unauthrization error"}
+        '500':
+          description: 内部エラーのレスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error: {type: string, example: "内部エラーのメッセージ（エラー内容によって可変）"}
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        uid:
+          type: string
+      required:
+        - uid
+  securitySchemes:
+    BbearerAuth:
+      type: http
+      scheme: bearer
+      description:  Firebase AuthenticationのIDトークン
