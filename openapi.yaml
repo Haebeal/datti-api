@@ -1,0 +1,262 @@
+openapi: 3.0.0
+info:
+  title: Datti API
+  version: 1.0.0
+  description: 誰にいくら払ったっけ？を記録するサービス
+tags:
+  - name: Banks
+paths:
+  /bank:
+    get:
+      tags:
+        - Banks
+      operationId: Banks_getMyBank
+      summary: 口座情報の取得
+      description: 登録されている口座情報の取得
+      parameters: []
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - uid
+                  - bankCode
+                  - branchCode
+                  - accountCode
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: ユーザーID
+                  bankCode:
+                    type: string
+                    minLength: 4
+                    maxLength: 4
+                    description: 金融機関コード
+                  branchCode:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                    description: 支店番号
+                  accountCode:
+                    type: string
+                    minLength: 7
+                    maxLength: 7
+                    description: 口座番号
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Banks
+      operationId: Banks_createMyBank
+      summary: 口座情報の登録・更新
+      description: 口座情報の登録・更新
+      parameters: []
+      responses:
+        '201':
+          description: 201レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - uid
+                  - bankCode
+                  - branchCode
+                  - accountCode
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: ユーザーID
+                  bankCode:
+                    type: string
+                    minLength: 4
+                    maxLength: 4
+                    description: 金融機関コード
+                  branchCode:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                    description: 支店番号
+                  accountCode:
+                    type: string
+                    minLength: 7
+                    maxLength: 7
+                    description: 口座番号
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Bank'
+    delete:
+      tags:
+        - Banks
+      operationId: Banks_deleteMyBank
+      summary: 口座情報の削除
+      description: 登録されている口座情報の削除
+      parameters: []
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+security:
+  - BearerAuth: []
+components:
+  schemas:
+    Bank:
+      type: object
+      required:
+        - bankCode
+        - branchCode
+        - accountCode
+      properties:
+        bankCode:
+          type: string
+          minLength: 4
+          maxLength: 4
+          description: 金融機関コード
+        branchCode:
+          type: string
+          minLength: 3
+          maxLength: 3
+          description: 支店番号
+        accountCode:
+          type: string
+          minLength: 7
+          maxLength: 7
+          description: 口座番号
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+servers:
+  - url: https://datti-api-dev.fly.dev
+    description: 開発環境
+    variables: {}
+  - url: https://datti-api.haebeal.net
+    description: 本番環境
+    variables: {}
