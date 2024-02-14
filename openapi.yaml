@@ -5,6 +5,7 @@ info:
   description: 誰にいくら払ったっけ？を記録するサービス
 tags:
   - name: Banks
+  - name: Profile
 paths:
   /bank:
     get:
@@ -223,6 +224,130 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+  /me:
+    get:
+      tags:
+        - Profile
+      operationId: Profiles_getProfile
+      summary: プロフィール情報の取得
+      description: 登録されてるプロフィール情報の取得
+      parameters: []
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - uid
+                  - name
+                  - photoUrl
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: ユーザーID
+                  name:
+                    type: string
+                    description: ユーザー名
+                  photoUrl:
+                    type: string
+                    description: 画像URL
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    put:
+      tags:
+        - Profile
+      operationId: Profiles_updateProfile
+      summary: プロフィール情報の更新
+      description: プロフィール情報の更新
+      parameters: []
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
 security:
   - BearerAuth: []
 components:
@@ -249,6 +374,18 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
+    Profile:
+      type: object
+      required:
+        - name
+        - photoUrl
+      properties:
+        name:
+          type: string
+          description: ユーザー名
+        photoUrl:
+          type: string
+          description: 画像URL
   securitySchemes:
     BearerAuth:
       type: http
