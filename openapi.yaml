@@ -234,46 +234,11 @@ paths:
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - uid
-                  - name
-                  - photoUrl
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  uid:
-                    type: string
-                    minLength: 28
-                    maxLength: 28
-                    description: ユーザーID
-                  name:
-                    type: string
-                    description: ユーザー名
-                  photoUrl:
-                    type: string
-                    description: 画像URL
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Profile'
         '401':
           description: 401エラー
           content:
@@ -307,17 +272,11 @@ paths:
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - message
-                properties:
-                  message:
-                    type: string
-                description: 正常完了時、メッセージのみを返す場合のボディ
+                $ref: '#/components/schemas/Profile'
         '401':
           description: 401エラー
           content:
@@ -377,9 +336,13 @@ components:
     Profile:
       type: object
       required:
+        - userId
         - name
         - photoUrl
       properties:
+        userId:
+          type: string
+          description: ユーザーID
         name:
           type: string
           description: ユーザー名
