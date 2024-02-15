@@ -314,10 +314,16 @@ components:
     Bank:
       type: object
       required:
+        - uid
         - bankCode
         - branchCode
         - accountCode
       properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: ユーザーID
         bankCode:
           type: string
           minLength: 4
@@ -336,12 +342,14 @@ components:
     Profile:
       type: object
       required:
-        - userId
+        - uid
         - name
         - photoUrl
       properties:
-        userId:
+        uid:
           type: string
+          minLength: 28
+          maxLength: 28
           description: ユーザーID
         name:
           type: string
