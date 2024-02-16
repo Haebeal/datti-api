@@ -5,7 +5,7 @@ info:
   description: 誰にいくら払ったっけ？を記録するサービス
 tags:
   - name: Banks
-  - name: Profile
+  - name: Profiles
   - name: Users
 paths:
   /bank:
@@ -228,7 +228,7 @@ paths:
   /me:
     get:
       tags:
-        - Profile
+        - Profiles
       operationId: Profiles_getProfile
       summary: プロフィール情報の取得
       description: 登録されてるプロフィール情報の取得
@@ -266,7 +266,7 @@ paths:
                 description: エラーレスポンスのボディ
     put:
       tags:
-        - Profile
+        - Profiles
       operationId: Profiles_updateProfile
       summary: プロフィール情報の更新
       description: プロフィール情報の更新
