@@ -347,6 +347,12 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
 security:
   - BearerAuth: []
 components:
@@ -397,6 +403,14 @@ components:
         photoUrl:
           type: string
           description: 画像URL
+    Request:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: メールアドレス
     User:
       type: object
       required:
