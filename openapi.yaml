@@ -6,6 +6,7 @@ info:
 tags:
   - name: Banks
   - name: Profile
+  - name: Users
 paths:
   /bank:
     get:
@@ -307,6 +308,45 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Profile'
+  /users:
+    get:
+      tags:
+        - Users
+      operationId: Users_getUser
+      summary: ユーザー情報の取得
+      description: メールアドレスによるユーザー情報の取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
 security:
   - BearerAuth: []
 components:
@@ -340,6 +380,24 @@ components:
           maxLength: 7
           description: 口座番号
     Profile:
+      type: object
+      required:
+        - uid
+        - name
+        - photoUrl
+      properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: ユーザーID
+        name:
+          type: string
+          description: ユーザー名
+        photoUrl:
+          type: string
+          description: 画像URL
+    User:
       type: object
       required:
         - uid
