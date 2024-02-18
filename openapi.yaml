@@ -328,7 +328,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Profile'
+              $ref: '#/components/schemas/ProfileUpdateRequest'
   /users:
     get:
       tags:
@@ -343,7 +343,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -373,7 +375,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Request'
+              $ref: '#/components/schemas/UserGetRequest'
 security:
   - BearerAuth: []
 components:
@@ -418,14 +420,18 @@ components:
         photoUrl:
           type: string
           description: 画像URL
-    Request:
+    ProfileUpdateRequest:
       type: object
       required:
-        - email
+        - name
+        - photoUrl
       properties:
-        email:
+        name:
           type: string
-          description: メールアドレス
+          description: ユーザー名
+        photoUrl:
+          type: string
+          description: 画像URL
     User:
       type: object
       required:
@@ -444,6 +450,14 @@ components:
         photoUrl:
           type: string
           description: 画像URL
+    UserGetRequest:
+      type: object
+      required:
+        - email
+      properties:
+        email:
+          type: string
+          description: メールアドレス
   securitySchemes:
     BearerAuth:
       type: http
