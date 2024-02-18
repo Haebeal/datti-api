@@ -7,6 +7,7 @@ tags:
   - name: Banks
   - name: Profiles
   - name: Users
+  - name: Friends
 paths:
   /bank:
     get:
@@ -246,6 +247,51 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+  /friends:
+    post:
+      tags:
+        - Friends
+      operationId: Friends_sendFriend
+      summary: フレンド申請の送信
+      description: フレンド申請の送信
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friend'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Friend'
   /me:
     get:
       tags:
@@ -400,6 +446,22 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
+    Friend:
+      type: object
+      required:
+        - uid
+        - friendUid
+      properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: フレンド申請送信者のユーザーID
+        friendUid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: フレンド申請受信者のユーザーID
     Profile:
       type: object
       required:
