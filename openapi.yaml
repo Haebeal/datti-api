@@ -7,7 +7,6 @@ tags:
   - name: Banks
   - name: Profiles
   - name: Users
-  - name: Friends
 paths:
   /bank:
     get:
@@ -25,7 +24,6 @@ paths:
               schema:
                 type: object
                 required:
-                  - uid
                   - bankCode
                   - branchCode
                   - accountCode
@@ -33,11 +31,6 @@ paths:
                   - updatedAt
                   - deletedAt
                 properties:
-                  uid:
-                    type: string
-                    minLength: 28
-                    maxLength: 28
-                    description: ユーザーID
                   bankCode:
                     type: string
                     minLength: 4
@@ -108,7 +101,6 @@ paths:
               schema:
                 type: object
                 required:
-                  - uid
                   - bankCode
                   - branchCode
                   - accountCode
@@ -116,11 +108,6 @@ paths:
                   - updatedAt
                   - deletedAt
                 properties:
-                  uid:
-                    type: string
-                    minLength: 28
-                    maxLength: 28
-                    description: ユーザーID
                   bankCode:
                     type: string
                     minLength: 4
@@ -197,11 +184,44 @@ paths:
               schema:
                 type: object
                 required:
-                  - message
+                  - bankCode
+                  - branchCode
+                  - accountCode
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
                 properties:
-                  message:
+                  bankCode:
                     type: string
-                description: 正常完了時、メッセージのみを返す場合のボディ
+                    minLength: 4
+                    maxLength: 4
+                    description: 金融機関コード
+                  branchCode:
+                    type: string
+                    minLength: 3
+                    maxLength: 3
+                    description: 支店番号
+                  accountCode:
+                    type: string
+                    minLength: 7
+                    maxLength: 7
+                    description: 口座番号
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -226,51 +246,6 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
-  /friends:
-    post:
-      tags:
-        - Friends
-      operationId: Friends_sendFriend
-      summary: フレンド申請の送信
-      description: フレンド申請の送信
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Friend'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Friend'
   /me:
     get:
       tags:
@@ -406,16 +381,10 @@ components:
     Bank:
       type: object
       required:
-        - uid
         - bankCode
         - branchCode
         - accountCode
       properties:
-        uid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: ユーザーID
         bankCode:
           type: string
           minLength: 4
@@ -431,22 +400,6 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
-    Friend:
-      type: object
-      required:
-        - uid
-        - friendUid
-      properties:
-        uid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: フレンド申請送信者のユーザーID
-        friendUid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: フレンド申請受信者のユーザーID
     Profile:
       type: object
       required:
