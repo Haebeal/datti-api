@@ -248,10 +248,50 @@ paths:
                     type: string
                 description: エラーレスポンスのボディ
   /friends:
+    get:
+      tags:
+        - Friends
+      operationId: Friends_getFriends
+      summary: フレンド一覧の取得
+      description: フレンド一覧の取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Friend'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
     post:
       tags:
         - Friends
-      operationId: Friends_sendFriend
+      operationId: Friends_applyingFriend
       summary: フレンド申請の送信
       description: フレンド申請の送信
       parameters: []
@@ -291,7 +331,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Friend'
+              $ref: '#/components/schemas/ApplyingFriend'
   /me:
     get:
       tags:
@@ -424,6 +464,16 @@ security:
   - BearerAuth: []
 components:
   schemas:
+    ApplyingFriend:
+      type: object
+      required:
+        - uid
+      properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: フレンド申請受信者のユーザーID
     Bank:
       type: object
       required:
@@ -450,18 +500,30 @@ components:
       type: object
       required:
         - uid
-        - friendUid
+        - name
+        - photoUrl
+        - status
       properties:
         uid:
           type: string
           minLength: 28
           maxLength: 28
-          description: フレンド申請送信者のユーザーID
-        friendUid:
+          description: ユーザーID
+        name:
           type: string
-          minLength: 28
-          maxLength: 28
-          description: フレンド申請受信者のユーザーID
+          description: ユーザー名
+        photoUrl:
+          type: string
+          description: 画像URL
+        status:
+          $ref: '#/components/schemas/FriendStatus'
+    FriendStatus:
+      type: string
+      enum:
+        - friend
+        - applying
+        - applied
+      description: フレンド状況
     Profile:
       type: object
       required:
