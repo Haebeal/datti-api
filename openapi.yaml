@@ -274,7 +274,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Profile'
+                  $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -315,7 +315,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Profile'
+                  $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -356,7 +356,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Profile'
+                  $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -385,7 +385,7 @@ paths:
     delete:
       tags:
         - Friends
-      operationId: Friends_deleteFriend
+      operationId: Friends_unRegisterFriend
       summary: フレンドの登録解除
       description: フレンドの登録解除
       parameters:
@@ -435,9 +435,94 @@ paths:
     get:
       tags:
         - Users
-      operationId: Users_getUser
-      summary: ユーザー情報の取得
+      operationId: Users_getUserByEmail
+      summary: メールアドレスによるユーザー情報の取得
       description: メールアドレスによるユーザー情報の取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserGetRequest'
+  /users/me:
+    get:
+      tags:
+        - Users
+      operationId: Users_getMe
+      summary: ユーザー情報（自分）の取得
+      description: ユーザー情報の取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    put:
+      tags:
+        - Users
+      operationId: Users_updateMe
+      summary: ユーザー情報（自分）の更新
+      description: ユーザー情報の更新
       parameters: []
       responses:
         '200':
@@ -475,96 +560,13 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserGetRequest'
-  /users/me:
-    get:
-      tags:
-        - Users
-      operationId: Users_getProfile
-      summary: プロフィール情報の取得
-      description: プロフィール情報の取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Profile'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-    put:
-      tags:
-        - Users
-      operationId: Users_updateProfile
-      summary: プロフィール情報の更新
-      description: プロフィール情報の更新
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Profile'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ProfileUpdateRequest'
+              $ref: '#/components/schemas/UserUpdateRequest'
   /users/{uid}:
     get:
       tags:
         - Users
-      operationId: Users_getProfileByUid
-      summary: プロフィール情報の取得
+      operationId: Users_getUserByUid
+      summary: UIDによるユーザー情報の取得
       description: プロフィール情報の取得
       parameters:
         - name: uid
@@ -578,7 +580,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Profile'
+                $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -607,7 +609,7 @@ paths:
     post:
       tags:
         - Users
-      operationId: Users_sendFriend
+      operationId: Users_friendRequest
       summary: フレンド申請の送信
       description: フレンド申請の送信
       parameters:
@@ -679,46 +681,6 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
-    FriendRequest:
-      type: object
-      required:
-        - friendUid
-      properties:
-        friendUid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: フレンド申請受信者のユーザーID
-    Profile:
-      type: object
-      required:
-        - uid
-        - name
-        - photoUrl
-      properties:
-        uid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: ユーザーID
-        name:
-          type: string
-          description: ユーザー名
-        photoUrl:
-          type: string
-          description: 画像URL
-    ProfileUpdateRequest:
-      type: object
-      required:
-        - name
-        - photoUrl
-      properties:
-        name:
-          type: string
-          description: ユーザー名
-        photoUrl:
-          type: string
-          description: 画像URL
     User:
       type: object
       required:
@@ -745,6 +707,18 @@ components:
         email:
           type: string
           description: メールアドレス
+    UserUpdateRequest:
+      type: object
+      required:
+        - name
+        - photoUrl
+      properties:
+        name:
+          type: string
+          description: ユーザー名
+        photoUrl:
+          type: string
+          description: 画像URL
   securitySchemes:
     BearerAuth:
       type: http
