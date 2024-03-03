@@ -260,12 +260,12 @@ paths:
                     type: string
                 description: エラーレスポンスのボディ
   /friends:
-    post:
+    get:
       tags:
         - Friends
-      operationId: Friends_sendFriend
-      summary: フレンド申請の送信
-      description: フレンド申請の送信
+      operationId: Friends_getFriend
+      summary: フレンドのユーザーを取得
+      description: フレンドのユーザーを取得
       parameters: []
       responses:
         '200':
@@ -273,7 +273,53 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Friend'
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    delete:
+      tags:
+        - Friends
+      operationId: Friends_deleteFriend
+      summary: フレンドの登録解除
+      description: フレンドの登録解除
+      parameters: []
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -303,7 +349,189 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Friend'
+              $ref: '#/components/schemas/FriendRequest'
+  /friends/pendings:
+    get:
+      tags:
+        - Friends
+      operationId: Friends_getPendingFriendRequest
+      summary: フレンド申請未承認のユーザーを取得
+      description: フレンド申請未承認のユーザーを取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Friends
+      operationId: Friends_postPendingFriendRequest
+      summary: フレンド申請の受領
+      description: フレンド申請の受領
+      parameters: []
+      responses:
+        '201':
+          description: 201レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
+  /friends/requests:
+    get:
+      tags:
+        - Friends
+      operationId: Friends_getFriendRequest
+      summary: フレンド申請中のユーザーを取得
+      description: フレンド申請中のユーザーを取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Friends
+      operationId: Friends_sendFriend
+      summary: フレンド申請の送信
+      description: フレンド申請の送信
+      parameters: []
+      responses:
+        '201':
+          description: 201レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FriendRequest'
   /me:
     get:
       tags:
@@ -458,17 +686,11 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
-    Friend:
+    FriendRequest:
       type: object
       required:
-        - uid
         - friendUid
       properties:
-        uid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: フレンド申請送信者のユーザーID
         friendUid:
           type: string
           minLength: 28
