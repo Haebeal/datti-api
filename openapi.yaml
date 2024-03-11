@@ -686,6 +686,7 @@ components:
       required:
         - uid
         - name
+        - email
         - photoUrl
       properties:
         uid:
@@ -696,6 +697,9 @@ components:
         name:
           type: string
           description: ユーザー名
+        email:
+          type: string
+          description: メールアドレス
         photoUrl:
           type: string
           description: 画像URL
