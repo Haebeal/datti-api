@@ -7,6 +7,7 @@ tags:
   - name: Banks
   - name: Users
   - name: Friends
+  - name: Groups
 paths:
   /bank:
     get:
@@ -431,6 +432,179 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+  /groups:
+    get:
+      tags:
+        - Groups
+      operationId: Groups_getGroups
+      summary: 所属しているグループ情報の取得
+      description: 所属しているグループの取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Group'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Groups
+      operationId: Groups_postGroup
+      summary: グループの作成
+      description: グループの作成
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsers'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest'
+    put:
+      tags:
+        - Groups
+      operationId: Groups_putGroup
+      summary: グループ情報の更新
+      description: グループ情報の更新
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsers'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest'
+  /groups/{id}:
+    get:
+      tags:
+        - Groups
+      operationId: Groups_getGroup
+      summary: グループ情報の取得
+      description: グループ情報の取得
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsers'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
   /users:
     get:
       tags:
@@ -681,6 +855,54 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
+    Group:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+    GroupUpdateRequest:
+      type: object
+      required:
+        - id
+        - name
+        - uids
+      properties:
+        id:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+        uids:
+          type: array
+          items:
+            type: string
+          description: UID
+    GroupUsers:
+      type: object
+      required:
+        - id
+        - name
+        - users
+      properties:
+        id:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          description: ユーザー情報
     User:
       type: object
       required:
