@@ -516,51 +516,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GroupUpdateRequest'
-    put:
-      tags:
-        - Groups
-      operationId: Groups_putGroup
-      summary: グループ情報の更新
-      description: グループ情報の更新
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupUsers'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/GroupUpdateRequest'
+              $ref: '#/components/schemas/GroupCreateRequest'
   /groups/{id}:
     get:
       tags:
@@ -605,6 +561,105 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+    put:
+      tags:
+        - Groups
+      operationId: Groups_putGroup
+      summary: グループ情報の更新
+      description: グループ情報の更新
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsers'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GroupUpdateRequest'
+  /groups/{id}/members:
+    post:
+      tags:
+        - Groups
+      operationId: Groups_registedUsers
+      summary: グループに対するメンバーの招待
+      description: グループに対するメンバーの追加
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupUsers'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Members'
   /users:
     get:
       tags:
@@ -867,16 +922,12 @@ components:
         name:
           type: string
           description: グループ名
-    GroupUpdateRequest:
+    GroupCreateRequest:
       type: object
       required:
-        - id
         - name
         - uids
       properties:
-        id:
-          type: string
-          description: グループID
         name:
           type: string
           description: グループ名
@@ -885,6 +936,14 @@ components:
           items:
             type: string
           description: UID
+    GroupUpdateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: グループ名
     GroupUsers:
       type: object
       required:
@@ -903,6 +962,16 @@ components:
           items:
             $ref: '#/components/schemas/User'
           description: ユーザー情報
+    Members:
+      type: object
+      required:
+        - uids
+      properties:
+        uids:
+          type: array
+          items:
+            type: string
+          description: UID
     User:
       type: object
       required:
