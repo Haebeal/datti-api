@@ -8,6 +8,7 @@ tags:
   - name: Users
   - name: Friends
   - name: Groups
+  - name: Events
 paths:
   /bank:
     get:
@@ -235,6 +236,313 @@ paths:
                       削除時間
                       論理削除されていない場合はnull
                 description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+  /events:
+    post:
+      tags:
+        - Events
+      operationId: Events_createEvent
+      summary: イベント情報の登録
+      description: イベント情報の登録
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    delete:
+      tags:
+        - Events
+      operationId: Events_deleteEvent
+      summary: イベント情報の削除
+      description: イベント情報の削除
+      parameters: []
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+  /events/{gid}:
+    get:
+      tags:
+        - Events
+      operationId: Events_getEventsByGid
+      summary: グループIDに紐づくイベント情報の取得
+      description: グループIDに紐づくイベント情報の取得
+      parameters:
+        - name: gid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+  /events/{id}:
+    get:
+      tags:
+        - Events
+      operationId: Events_getEvent
+      summary: イベントIDに紐づくイベント情報の取得
+      description: 登録されているイベント情報の取得
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - uid
+                  - groupId
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: イベントID
+                  name:
+                    type: string
+                    description: イベント名
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: イベント作成者のUID
+                  groupId:
+                    type: string
+                    description: イベントの紐づいたグループID
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    put:
+      tags:
+        - Events
+      operationId: Events_updateEvent
+      summary: イベント情報の更新
+      description: イベント情報の更新
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventUpdate'
+  /events/{uid}:
+    get:
+      tags:
+        - Events
+      operationId: Events_getEventsByUid
+      summary: ユーザーIDに紐づくイベント情報の取得
+      description: ユーザーに紐づくイベント情報の取得
+      parameters:
+        - name: uid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
         '401':
           description: 401エラー
           content:
@@ -910,6 +1218,36 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
+    Event:
+      type: object
+      required:
+        - id
+        - name
+        - uid
+        - groupId
+      properties:
+        id:
+          type: string
+          description: イベントID
+        name:
+          type: string
+          description: イベント名
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: イベント作成者のUID
+        groupId:
+          type: string
+          description: イベントの紐づいたグループID
+    EventUpdate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: イベント名
     Group:
       type: object
       required:
