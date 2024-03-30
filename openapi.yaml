@@ -1156,7 +1156,7 @@ components:
         - name
         - evented_at
         - uid
-        - groupId
+        - group_id
       properties:
         id:
           type: string
@@ -1173,7 +1173,7 @@ components:
           minLength: 28
           maxLength: 28
           description: イベント作成者のUID
-        groupId:
+        group_id:
           type: string
           description: イベントの紐づいたグループID
     EventCreate:
