@@ -8,6 +8,7 @@ tags:
   - name: Users
   - name: Friends
   - name: Groups
+  - name: Events
 paths:
   /bank:
     get:
@@ -505,6 +506,256 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GroupCreateRequest'
+  /groups/{gid}/events:
+    get:
+      tags:
+        - Events
+      operationId: Events_getEventsByGid
+      summary: グループIDに紐づくイベント情報の取得
+      description: グループIDに紐づくイベント情報の取得
+      parameters:
+        - name: gid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventList'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Events
+      operationId: Events_createEvent
+      summary: イベント情報の登録
+      description: イベント情報の登録
+      parameters:
+        - name: gid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventCreate'
+  /groups/{gid}/events/{id}:
+    get:
+      tags:
+        - Events
+      operationId: Events_getEvent
+      summary: イベントIDに紐づくイベント情報の取得
+      description: 登録されているイベント情報の取得
+      parameters:
+        - name: gid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    put:
+      tags:
+        - Events
+      operationId: Events_updateEvent
+      summary: イベント情報の更新
+      description: イベント情報の更新
+      parameters:
+        - name: gid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventUpdate'
+    delete:
+      tags:
+        - Events
+      operationId: Events_deleteEvent
+      summary: イベント情報の削除
+      description: イベント情報の削除
+      parameters:
+        - name: gid
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
   /groups/{id}:
     get:
       tags:
@@ -898,6 +1149,68 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
+    Event:
+      type: object
+      required:
+        - id
+        - name
+        - evented_at
+        - uid
+        - groupId
+      properties:
+        id:
+          type: string
+          description: イベントID
+        name:
+          type: string
+          description: イベント名
+        evented_at:
+          type: string
+          format: date-time
+          description: イベントの日付
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: イベント作成者のUID
+        groupId:
+          type: string
+          description: イベントの紐づいたグループID
+    EventCreate:
+      type: object
+      required:
+        - name
+        - evented_at
+      properties:
+        name:
+          type: string
+          description: イベント名
+        evented_at:
+          type: string
+          format: date-time
+          description: イベントの日付
+    EventList:
+      type: object
+      required:
+        - events
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/Event'
+    EventUpdate:
+      type: object
+      required:
+        - name
+        - evented_at
+      properties:
+        name:
+          type: string
+          description: イベント名
+        evented_at:
+          type: string
+          format: date-time
+          description: イベントの日付
     Group:
       type: object
       required:
