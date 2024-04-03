@@ -435,9 +435,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupList'
         '401':
           description: 401エラー
           content:
@@ -1235,6 +1233,16 @@ components:
           items:
             type: string
           description: UID
+    GroupList:
+      type: object
+      required:
+        - groups
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          description: グループ
     GroupUpdateRequest:
       type: object
       required:
