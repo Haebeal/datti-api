@@ -262,9 +262,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserList'
         '401':
           description: 401エラー
           content:
@@ -303,9 +301,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserList'
         '401':
           description: 401エラー
           content:
@@ -344,9 +340,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserList'
         '401':
           description: 401エラー
           content:
