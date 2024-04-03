@@ -913,9 +913,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserList'
         '401':
           description: 401エラー
           content:
@@ -1303,6 +1301,15 @@ components:
         email:
           type: string
           description: メールアドレス
+    UserList:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
     UserUpdateRequest:
       type: object
       required:
