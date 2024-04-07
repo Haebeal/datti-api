@@ -1186,7 +1186,30 @@ components:
         events:
           type: array
           items:
-            $ref: '#/components/schemas/Event'
+            type: object
+            properties:
+              id:
+                type: string
+                description: イベントID
+              name:
+                type: string
+                description: イベント名
+              evented_at:
+                type: string
+                format: date-time
+                description: イベントの日付
+              created_by:
+                type: string
+                description: イベント作成者のユーザー情報
+              group_id:
+                type: string
+                description: イベントの紐づいたグループID
+            required:
+              - id
+              - name
+              - evented_at
+              - created_by
+              - group_id
     EventUpdate:
       type: object
       required:
