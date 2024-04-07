@@ -1145,7 +1145,7 @@ components:
         - id
         - name
         - evented_at
-        - uid
+        - created_by
         - group_id
       properties:
         id:
@@ -1158,11 +1158,10 @@ components:
           type: string
           format: date-time
           description: イベントの日付
-        uid:
-          type: string
-          minLength: 28
-          maxLength: 28
-          description: イベント作成者のUID
+        created_by:
+          allOf:
+            - $ref: '#/components/schemas/User'
+          description: イベント作成者のユーザー情報
         group_id:
           type: string
           description: イベントの紐づいたグループID
