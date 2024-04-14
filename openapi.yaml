@@ -1481,20 +1481,20 @@ components:
     Payment:
       type: object
       required:
-        - payid_at
-        - payid_to
-        - payid_by
+        - paid_at
+        - paid_to
+        - paid_by
         - amount
       properties:
-        payid_at:
+        paid_at:
           type: string
           format: date-time
           description: 支払い日
-        payid_to:
+        paid_to:
           allOf:
             - $ref: '#/components/schemas/User'
           description: 支払い先のユーザー情報
-        payid_by:
+        paid_by:
           allOf:
             - $ref: '#/components/schemas/User'
           description: 支払い元のユーザー情報
@@ -1531,15 +1531,15 @@ components:
     PaymentsRequest:
       type: object
       required:
-        - payid_at
-        - payid_to
+        - paid_at
+        - paid_to
         - amount
       properties:
-        payid_at:
+        paid_at:
           type: string
           format: date-time
           description: 支払い日
-        payid_to:
+        paid_to:
           type: string
           description: 支払い先のユーザー情報
         amount:
