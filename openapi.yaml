@@ -9,7 +9,6 @@ tags:
   - name: Friends
   - name: Groups
   - name: Events
-  - name: Payments
 paths:
   /bank:
     get:
@@ -172,12 +171,13 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Bank'
-    delete:
+  /friends:
+    get:
       tags:
-        - Banks
-      operationId: Banks_deleteMyBank
-      summary: 口座情報の削除
-      description: 登録されている口座情報の削除
+        - Friends
+      operationId: Friends_getFriend
+      summary: フレンドのユーザーを取得
+      description: フレンドのユーザーを取得
       parameters: []
       responses:
         '200':
@@ -187,28 +187,15 @@ paths:
               schema:
                 type: object
                 required:
-                  - bankCode
-                  - branchCode
-                  - accountCode
+                  - users
                   - createdAt
                   - updatedAt
                   - deletedAt
                 properties:
-                  bankCode:
-                    type: string
-                    minLength: 4
-                    maxLength: 4
-                    description: 金融機関コード
-                  branchCode:
-                    type: string
-                    minLength: 3
-                    maxLength: 3
-                    description: 支店番号
-                  accountCode:
-                    type: string
-                    minLength: 7
-                    maxLength: 7
-                    description: 口座番号
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
                   createdAt:
                     type: string
                     format: date-time
@@ -249,45 +236,6 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
-  /friends:
-    get:
-      tags:
-        - Friends
-      operationId: Friends_getFriend
-      summary: フレンドのユーザーを取得
-      description: フレンドのユーザーを取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserList'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
   /friends/pendings:
     get:
       tags:
@@ -298,11 +246,37 @@ paths:
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                type: object
+                required:
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -337,11 +311,37 @@ paths:
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                type: object
+                required:
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -366,7 +366,7 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
-  /friends/{uid}:
+  /friends/{userId}:
     delete:
       tags:
         - Friends
@@ -374,7 +374,7 @@ paths:
       summary: フレンドの登録解除
       description: フレンドの登録解除
       parameters:
-        - name: uid
+        - name: userId
           in: path
           required: true
           schema:
@@ -426,11 +426,38 @@ paths:
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupList'
+                type: object
+                required:
+                  - groups
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Group'
+                    description: グループ
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -464,11 +491,46 @@ paths:
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupUsers'
+                type: object
+                required:
+                  - id
+                  - name
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: グループID
+                  name:
+                    type: string
+                    description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -499,215 +561,15 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GroupCreateRequest'
-  /groups/{gid}/events:
+  /groups/{groupId}:
     get:
       tags:
-        - Events
-      operationId: Events_getEventsByGid
-      summary: グループIDに紐づくイベント情報の取得
-      description: グループIDに紐づくイベント情報の取得
+        - Groups
+      operationId: Groups_getGroup
+      summary: グループ情報の取得
+      description: グループ情報の取得
       parameters:
-        - name: gid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/EventList'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-    post:
-      tags:
-        - Events
-      operationId: Events_createEvent
-      summary: イベント情報の登録
-      description: イベント情報の登録
-      parameters:
-        - name: gid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventCreate'
-  /groups/{gid}/events/{id}:
-    get:
-      tags:
-        - Events
-      operationId: Events_getEvent
-      summary: イベントIDに紐づくイベント情報の取得
-      description: 登録されているイベント情報の取得
-      parameters:
-        - name: gid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-    put:
-      tags:
-        - Events
-      operationId: Events_updateEvent
-      summary: イベント情報の更新
-      description: イベント情報の更新
-      parameters:
-        - name: gid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Event'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EventUpdate'
-    delete:
-      tags:
-        - Events
-      operationId: Events_deleteEvent
-      summary: イベント情報の削除
-      description: イベント情報の削除
-      parameters:
-        - name: gid
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: id
+        - name: groupId
           in: path
           required: true
           schema:
@@ -720,55 +582,40 @@ paths:
               schema:
                 type: object
                 required:
-                  - message
+                  - id
+                  - name
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
                 properties:
-                  message:
+                  id:
                     type: string
-                description: 正常完了時、メッセージのみを返す場合のボディ
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
+                    description: グループID
+                  name:
                     type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
+                    description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
+                  createdAt:
                     type: string
-                description: エラーレスポンスのボディ
-  /groups/{id}:
-    get:
-      tags:
-        - Groups
-      operationId: Groups_getGroup
-      summary: グループ情報の取得
-      description: グループ情報の取得
-      parameters:
-        - name: id
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupUsers'
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -800,18 +647,53 @@ paths:
       summary: グループ情報の更新
       description: グループ情報の更新
       parameters:
-        - name: id
+        - name: groupId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupUsers'
+                type: object
+                required:
+                  - id
+                  - name
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: グループID
+                  name:
+                    type: string
+                    description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -842,26 +724,138 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/GroupUpdateRequest'
-  /groups/{id}/members:
-    post:
+  /groups/{groupId}/events:
+    get:
       tags:
-        - Groups
-      operationId: Groups_registedUsers
-      summary: グループに対するメンバーの招待
-      description: グループに対するメンバーの追加
+        - Events
+      operationId: Events_getEventsByGid
+      summary: グループIDに紐づくイベント情報の取得
+      description: グループIDに紐づくイベント情報の取得
       parameters:
-        - name: id
+        - name: groupId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupUsers'
+                type: object
+                required:
+                  - events
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Event'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Events
+      operationId: Events_createEvent
+      summary: イベント情報の登録
+      description: イベント情報の登録
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '201':
+          description: 201レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - evented_at
+                  - created_by
+                  - group_id
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: イベントID
+                  name:
+                    type: string
+                    description: イベント名
+                  evented_at:
+                    type: string
+                    format: date-time
+                    description: イベントの日付
+                  created_by:
+                    allOf:
+                      - $ref: '#/components/schemas/User'
+                    description: イベント作成者のユーザー情報
+                  group_id:
+                    type: string
+                    description: イベントの紐づいたグループID
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -891,110 +885,75 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Members'
-  /payments:
+              $ref: '#/components/schemas/EventCreateRequest'
+  /groups/{groupId}/events/{eventId}:
     get:
       tags:
-        - Payments
-      operationId: Payments_getPayments
-      summary: 支払い一覧情報の取得
-      description: 支払い一覧情報の取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaymentUserList'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-    post:
-      tags:
-        - Payments
-      operationId: Payments_postPayments
-      summary: 支払い情報の登録
-      description: 支払い情報の登録
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Payment'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PaymentsRequest'
-  /payments/{payId}:
-    get:
-      tags:
-        - Payments
-      operationId: Payments_getPayment
-      summary: 支払い情報の取得
-      description: 支払い情報の取得
+        - Events
+      operationId: Events_getEvent
+      summary: イベントIDに紐づくイベント情報の取得
+      description: 登録されているイベント情報の取得
       parameters:
-        - name: payId
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: eventId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payment'
+                type: object
+                required:
+                  - id
+                  - name
+                  - evented_at
+                  - created_by
+                  - group_id
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: イベントID
+                  name:
+                    type: string
+                    description: イベント名
+                  evented_at:
+                    type: string
+                    format: date-time
+                    description: イベントの日付
+                  created_by:
+                    allOf:
+                      - $ref: '#/components/schemas/User'
+                    description: イベント作成者のユーザー情報
+                  group_id:
+                    type: string
+                    description: イベントの紐づいたグループID
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -1021,23 +980,71 @@ paths:
                 description: エラーレスポンスのボディ
     put:
       tags:
-        - Payments
-      operationId: Payments_putPayments
-      summary: 支払い情報の更新
-      description: 支払い情報の更新
+        - Events
+      operationId: Events_updateEvent
+      summary: イベント情報の更新
+      description: イベント情報の更新
       parameters:
-        - name: payId
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: eventId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Payment'
+                type: object
+                required:
+                  - id
+                  - name
+                  - evented_at
+                  - created_by
+                  - group_id
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: イベントID
+                  name:
+                    type: string
+                    description: イベント名
+                  evented_at:
+                    type: string
+                    format: date-time
+                    description: イベントの日付
+                  created_by:
+                    allOf:
+                      - $ref: '#/components/schemas/User'
+                    description: イベント作成者のユーザー情報
+                  group_id:
+                    type: string
+                    description: イベントの紐づいたグループID
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -1067,15 +1074,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentsRequest'
+              $ref: '#/components/schemas/EventUpdateRequest'
     delete:
       tags:
-        - Payments
-      operationId: Payments_deletePayments
-      summary: 支払い情報の削除
-      description: 支払い情報の削除
+        - Events
+      operationId: Events_deleteEvent
+      summary: イベント情報の削除
+      description: イベント情報の削除
       parameters:
-        - name: payId
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: eventId
           in: path
           required: true
           schema:
@@ -1117,6 +1129,91 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+  /groups/{groupId}/members:
+    post:
+      tags:
+        - Groups
+      operationId: Groups_registedUsers
+      summary: グループに対するメンバーの招待
+      description: グループに対するメンバーの追加
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - id
+                  - name
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  id:
+                    type: string
+                    description: グループID
+                  name:
+                    type: string
+                    description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Members'
   /users:
     get:
       tags:
@@ -1132,11 +1229,37 @@ paths:
             type: string
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UserList'
+                type: object
+                required:
+                  - users
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -1171,11 +1294,55 @@ paths:
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                required:
+                  - uid
+                  - name
+                  - email
+                  - photoUrl
+                  - bank
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: ユーザーID
+                  name:
+                    type: string
+                    description: ユーザー名
+                  email:
+                    type: string
+                    description: メールアドレス
+                  photoUrl:
+                    type: string
+                    description: 画像URL
+                  bank:
+                    allOf:
+                      - $ref: '#/components/schemas/Bank'
+                    description: 口座情報
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -1209,11 +1376,55 @@ paths:
       parameters: []
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                required:
+                  - uid
+                  - name
+                  - email
+                  - photoUrl
+                  - bank
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: ユーザーID
+                  name:
+                    type: string
+                    description: ユーザー名
+                  email:
+                    type: string
+                    description: メールアドレス
+                  photoUrl:
+                    type: string
+                    description: 画像URL
+                  bank:
+                    allOf:
+                      - $ref: '#/components/schemas/Bank'
+                    description: 口座情報
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -1244,7 +1455,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/UserUpdateRequest'
-  /users/{uid}:
+  /users/{userId}:
     get:
       tags:
         - Users
@@ -1252,18 +1463,62 @@ paths:
       summary: UIDによるユーザー情報の取得
       description: プロフィール情報の取得
       parameters:
-        - name: uid
+        - name: userId
           in: path
           required: true
           schema:
             type: string
       responses:
         '200':
-          description: The request has succeeded.
+          description: 200レスポンス
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                type: object
+                required:
+                  - uid
+                  - name
+                  - email
+                  - photoUrl
+                  - bank
+                  - createdAt
+                  - updatedAt
+                  - deletedAt
+                properties:
+                  uid:
+                    type: string
+                    minLength: 28
+                    maxLength: 28
+                    description: ユーザーID
+                  name:
+                    type: string
+                    description: ユーザー名
+                  email:
+                    type: string
+                    description: メールアドレス
+                  photoUrl:
+                    type: string
+                    description: 画像URL
+                  bank:
+                    allOf:
+                      - $ref: '#/components/schemas/Bank'
+                    description: 口座情報
+                  createdAt:
+                    type: string
+                    format: date-time
+                    description: 作成時間
+                  updatedAt:
+                    type: string
+                    format: date-time
+                    description: 更新時間
+                  deletedAt:
+                    type: string
+                    format: date-time
+                    nullable: true
+                    description: |-
+                      削除時間
+                      論理削除されていない場合はnull
+                description: 正常完了時、レコードを返す場合のボディ
         '401':
           description: 401エラー
           content:
@@ -1288,7 +1543,7 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
-  /users/{uid}/requests:
+  /users/{userId}/requests:
     post:
       tags:
         - Users
@@ -1296,7 +1551,7 @@ paths:
       summary: フレンド申請の送信
       description: フレンド申請の送信
       parameters:
-        - name: uid
+        - name: userId
           in: path
           required: true
           schema:
@@ -1390,7 +1645,7 @@ components:
         group_id:
           type: string
           description: イベントの紐づいたグループID
-    EventCreate:
+    EventCreateRequest:
       type: object
       required:
         - name
@@ -1403,7 +1658,20 @@ components:
           type: string
           format: date-time
           description: イベントの日付
-    EventList:
+    EventUpdateRequest:
+      type: object
+      required:
+        - name
+        - evented_at
+      properties:
+        name:
+          type: string
+          description: イベント名
+        evented_at:
+          type: string
+          format: date-time
+          description: イベントの日付
+    EventsResponse:
       type: object
       required:
         - events
@@ -1411,43 +1679,7 @@ components:
         events:
           type: array
           items:
-            type: object
-            properties:
-              id:
-                type: string
-                description: イベントID
-              name:
-                type: string
-                description: イベント名
-              evented_at:
-                type: string
-                format: date-time
-                description: イベントの日付
-              created_by:
-                type: string
-                description: イベント作成者のユーザー情報
-              group_id:
-                type: string
-                description: イベントの紐づいたグループID
-            required:
-              - id
-              - name
-              - evented_at
-              - created_by
-              - group_id
-    EventUpdate:
-      type: object
-      required:
-        - name
-        - evented_at
-      properties:
-        name:
-          type: string
-          description: イベント名
-        evented_at:
-          type: string
-          format: date-time
-          description: イベントの日付
+            $ref: '#/components/schemas/Event'
     Group:
       type: object
       required:
@@ -1474,25 +1706,7 @@ components:
           items:
             type: string
           description: UID
-    GroupList:
-      type: object
-      required:
-        - groups
-      properties:
-        groups:
-          type: array
-          items:
-            $ref: '#/components/schemas/Group'
-          description: グループ
-    GroupUpdateRequest:
-      type: object
-      required:
-        - name
-      properties:
-        name:
-          type: string
-          description: グループ名
-    GroupUsers:
+    GroupResponse:
       type: object
       required:
         - id
@@ -1510,6 +1724,24 @@ components:
           items:
             $ref: '#/components/schemas/User'
           description: ユーザー情報
+    GroupUpdateRequest:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+          description: グループ名
+    GroupsResponse:
+      type: object
+      required:
+        - groups
+      properties:
+        groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/Group'
+          description: グループ
     Members:
       type: object
       required:
@@ -1520,73 +1752,6 @@ components:
           items:
             type: string
           description: UID
-    Payment:
-      type: object
-      required:
-        - paid_at
-        - paid_to
-        - paid_by
-        - amount
-      properties:
-        paid_at:
-          type: string
-          format: date-time
-          description: 支払い日
-        paid_to:
-          allOf:
-            - $ref: '#/components/schemas/User'
-          description: 支払い先のユーザー情報
-        paid_by:
-          allOf:
-            - $ref: '#/components/schemas/User'
-          description: 支払い元のユーザー情報
-        amount:
-          type: string
-          description: 支払い金額
-    PaymentUser:
-      type: object
-      required:
-        - user
-        - bank_account
-        - amount
-      properties:
-        user:
-          allOf:
-            - $ref: '#/components/schemas/User'
-          description: ユーザー情報
-        bank_account:
-          allOf:
-            - $ref: '#/components/schemas/Bank'
-          description: 口座情報
-        amount:
-          type: string
-          description: 支払い額
-    PaymentUserList:
-      type: object
-      required:
-        - payments
-      properties:
-        payments:
-          type: array
-          items:
-            $ref: '#/components/schemas/PaymentUser'
-    PaymentsRequest:
-      type: object
-      required:
-        - paid_at
-        - paid_to
-        - amount
-      properties:
-        paid_at:
-          type: string
-          format: date-time
-          description: 支払い日
-        paid_to:
-          type: string
-          description: 支払い先のユーザー情報
-        amount:
-          type: string
-          description: 支払い金額
     User:
       type: object
       required:
@@ -1594,6 +1759,7 @@ components:
         - name
         - email
         - photoUrl
+        - bank
       properties:
         uid:
           type: string
@@ -1609,15 +1775,41 @@ components:
         photoUrl:
           type: string
           description: 画像URL
-    UserGetRequest:
+        bank:
+          allOf:
+            - $ref: '#/components/schemas/Bank'
+          description: 口座情報
+    UserUpdateRequest:
       type: object
       required:
-        - email
+        - name
+        - photoUrl
+        - bankCode
+        - branchCode
+        - accountCode
       properties:
-        email:
+        name:
           type: string
-          description: メールアドレス
-    UserList:
+          description: ユーザー名
+        photoUrl:
+          type: string
+          description: 画像URL
+        bankCode:
+          type: string
+          minLength: 4
+          maxLength: 4
+          description: 金融機関コード
+        branchCode:
+          type: string
+          minLength: 3
+          maxLength: 3
+          description: 支店番号
+        accountCode:
+          type: string
+          minLength: 7
+          maxLength: 7
+          description: 口座番号
+    UsersResponse:
       type: object
       required:
         - users
@@ -1626,18 +1818,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-    UserUpdateRequest:
-      type: object
-      required:
-        - name
-        - photoUrl
-      properties:
-        name:
-          type: string
-          description: ユーザー名
-        photoUrl:
-          type: string
-          description: 画像URL
   securitySchemes:
     BearerAuth:
       type: http
