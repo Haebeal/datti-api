@@ -1349,9 +1349,12 @@ paths:
                     description: 口座情報
                   status:
                     type: string
-                    description: |-
-                      フレンド状態のステータス
-                      "me" | "applying" | "requesting" | "none"
+                    enum:
+                      - me
+                      - applying
+                      - requesting
+                      - none
+                    description: フレンド状態のステータス
                   createdAt:
                     type: string
                     format: date-time
@@ -1437,9 +1440,12 @@ paths:
                     description: 口座情報
                   status:
                     type: string
-                    description: |-
-                      フレンド状態のステータス
-                      "me" | "applying" | "requesting" | "none"
+                    enum:
+                      - me
+                      - applying
+                      - requesting
+                      - none
+                    description: フレンド状態のステータス
                   createdAt:
                     type: string
                     format: date-time
@@ -1537,9 +1543,12 @@ paths:
                     description: 口座情報
                   status:
                     type: string
-                    description: |-
-                      フレンド状態のステータス
-                      "me" | "applying" | "requesting" | "none"
+                    enum:
+                      - me
+                      - applying
+                      - requesting
+                      - none
+                    description: フレンド状態のステータス
                   createdAt:
                     type: string
                     format: date-time
@@ -1823,9 +1832,12 @@ components:
           description: 口座情報
         status:
           type: string
-          description: |-
-            フレンド状態のステータス
-            "me" | "applying" | "requesting" | "none"
+          enum:
+            - me
+            - applying
+            - requesting
+            - none
+          description: フレンド状態のステータス
     UserUpdateRequest:
       type: object
       required:
