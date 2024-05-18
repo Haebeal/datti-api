@@ -499,6 +499,7 @@ paths:
                 required:
                   - id
                   - name
+                  - users
                   - createdAt
                   - updatedAt
                   - deletedAt
@@ -509,6 +510,11 @@ paths:
                   name:
                     type: string
                     description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
                   createdAt:
                     type: string
                     format: date-time
@@ -578,6 +584,7 @@ paths:
                 required:
                   - id
                   - name
+                  - users
                   - createdAt
                   - updatedAt
                   - deletedAt
@@ -588,6 +595,11 @@ paths:
                   name:
                     type: string
                     description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
                   createdAt:
                     type: string
                     format: date-time
@@ -650,6 +662,7 @@ paths:
                 required:
                   - id
                   - name
+                  - users
                   - createdAt
                   - updatedAt
                   - deletedAt
@@ -660,6 +673,11 @@ paths:
                   name:
                     type: string
                     description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
                   createdAt:
                     type: string
                     format: date-time
@@ -1112,49 +1130,6 @@ paths:
                     type: string
                 description: エラーレスポンスのボディ
   /groups/{groupId}/members:
-    get:
-      tags:
-        - Groups
-      operationId: Groups_getGroupMembers
-      summary: グループに対するメンバー情報の取得
-      description: グループに対するメンバー情報の取得
-      parameters:
-        - name: groupId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/GroupMembers'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
     post:
       tags:
         - Groups
@@ -1177,6 +1152,7 @@ paths:
                 required:
                   - id
                   - name
+                  - users
                   - createdAt
                   - updatedAt
                   - deletedAt
@@ -1187,6 +1163,11 @@ paths:
                   name:
                     type: string
                     description: グループ名
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                    description: ユーザー情報
                   createdAt:
                     type: string
                     format: date-time
@@ -1612,6 +1593,50 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+  /users/{userId}/status:
+    get:
+      tags:
+        - Users
+      operationId: Users_getUserStatus
+      summary: ユーザーとのフレンド状態のステータスを取得
+      description: ユーザーとのフレンド状態のスタテータスの取得
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserStatus'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
 security:
   - BearerAuth: []
 components:
@@ -1725,21 +1750,12 @@ components:
           items:
             type: string
           description: UID
-    GroupMembers:
-      type: object
-      required:
-        - users
-      properties:
-        users:
-          type: array
-          items:
-            $ref: '#/components/schemas/User'
-          description: ユーザー情報
     GroupResponse:
       type: object
       required:
         - id
         - name
+        - users
       properties:
         id:
           type: string
@@ -1747,6 +1763,11 @@ components:
         name:
           type: string
           description: グループ名
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+          description: ユーザー情報
     GroupUpdateRequest:
       type: object
       required:
@@ -1802,6 +1823,24 @@ components:
           allOf:
             - $ref: '#/components/schemas/Bank'
           description: 口座情報
+    UserStatus:
+      type: object
+      required:
+        - uid
+        - name
+        - status
+      properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: ユーザーID
+        name:
+          type: string
+          description: ユーザー名
+        status:
+          type: string
+          description: フレンド状態のステータス
     UserUpdateRequest:
       type: object
       required:
