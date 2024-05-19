@@ -1692,7 +1692,6 @@ components:
       required:
         - name
         - evented_at
-        - created_by
         - paid_by
         - amount
         - payments
@@ -1704,9 +1703,6 @@ components:
           type: string
           format: date-time
           description: イベントの日付
-        created_by:
-          type: string
-          description: イベント作成者のユーザー情報
         paid_by:
           type: string
           description: 立て替えたユーザー
