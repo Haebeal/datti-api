@@ -1719,6 +1719,9 @@ components:
       required:
         - name
         - evented_at
+        - paid_by
+        - amount
+        - payments
       properties:
         name:
           type: string
@@ -1727,6 +1730,17 @@ components:
           type: string
           format: date-time
           description: イベントの日付
+        paid_by:
+          type: string
+          description: 立て替えたユーザー
+        amount:
+          type: integer
+          description: 立て替えた金額
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/payment'
+          description: 立て替えてもらったユーザー
     EventsResponse:
       type: object
       required:
