@@ -710,7 +710,7 @@ paths:
     get:
       tags:
         - Events
-      operationId: Events_getEventsByGid
+      operationId: EventEndpoints_getEventsByGid
       summary: グループIDに紐づくイベント情報の取得
       description: グループIDに紐づくイベント情報の取得
       parameters:
@@ -721,37 +721,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - events
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  events:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Event'
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/EventsResponse'
         '401':
           description: 401エラー
           content:
@@ -779,7 +753,7 @@ paths:
     post:
       tags:
         - Events
-      operationId: Events_createEvent
+      operationId: EventEndpoints_createEvent
       summary: イベント情報の登録
       description: イベント情報の登録
       parameters:
@@ -789,54 +763,12 @@ paths:
           schema:
             type: string
       responses:
-        '201':
-          description: 201レスポンス
+        '200':
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - evented_at
-                  - created_by
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: イベントID
-                  name:
-                    type: string
-                    description: イベント名
-                  evented_at:
-                    type: string
-                    format: date-time
-                    description: イベントの日付
-                  created_by:
-                    allOf:
-                      - $ref: '#/components/schemas/User'
-                    description: イベント作成者のユーザー情報
-                  group_id:
-                    type: string
-                    description: イベントの紐づいたグループID
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/EventResponse'
         '401':
           description: 401エラー
           content:
@@ -871,7 +803,7 @@ paths:
     get:
       tags:
         - Events
-      operationId: Events_getEvent
+      operationId: EventEndpoints_getEvent
       summary: イベントIDに紐づくイベント情報の取得
       description: 登録されているイベント情報の取得
       parameters:
@@ -887,53 +819,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - evented_at
-                  - created_by
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: イベントID
-                  name:
-                    type: string
-                    description: イベント名
-                  evented_at:
-                    type: string
-                    format: date-time
-                    description: イベントの日付
-                  created_by:
-                    allOf:
-                      - $ref: '#/components/schemas/User'
-                    description: イベント作成者のユーザー情報
-                  group_id:
-                    type: string
-                    description: イベントの紐づいたグループID
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/EventResponse'
         '401':
           description: 401エラー
           content:
@@ -961,7 +851,7 @@ paths:
     put:
       tags:
         - Events
-      operationId: Events_updateEvent
+      operationId: EventEndpoints_updateEvent
       summary: イベント情報の更新
       description: イベント情報の更新
       parameters:
@@ -977,53 +867,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - evented_at
-                  - created_by
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: イベントID
-                  name:
-                    type: string
-                    description: イベント名
-                  evented_at:
-                    type: string
-                    format: date-time
-                    description: イベントの日付
-                  created_by:
-                    allOf:
-                      - $ref: '#/components/schemas/User'
-                    description: イベント作成者のユーザー情報
-                  group_id:
-                    type: string
-                    description: イベントの紐づいたグループID
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/EventResponse'
         '401':
           description: 401エラー
           content:
@@ -1057,7 +905,7 @@ paths:
     delete:
       tags:
         - Events
-      operationId: Events_deleteEvent
+      operationId: EventEndpoints_deleteEvent
       summary: イベント情報の削除
       description: イベント情報の削除
       parameters:
@@ -1662,31 +1510,6 @@ components:
           minLength: 7
           maxLength: 7
           description: 口座番号
-    Event:
-      type: object
-      required:
-        - id
-        - name
-        - evented_at
-        - created_by
-      properties:
-        id:
-          type: string
-          description: イベントID
-        name:
-          type: string
-          description: イベント名
-        evented_at:
-          type: string
-          format: date-time
-          description: イベントの日付
-        created_by:
-          allOf:
-            - $ref: '#/components/schemas/User'
-          description: イベント作成者のユーザー情報
-        group_id:
-          type: string
-          description: イベントの紐づいたグループID
     EventCreateRequest:
       type: object
       required:
@@ -1712,8 +1535,58 @@ components:
         payments:
           type: array
           items:
-            $ref: '#/components/schemas/payment'
+            type: object
+            properties:
+              paid_to:
+                type: string
+              amount:
+                type: integer
+            required:
+              - paid_to
+              - amount
           description: 立て替えてもらったユーザー
+    EventResponse:
+      type: object
+      required:
+        - id
+        - name
+        - evented_at
+        - created_by
+        - paid_by
+        - amount
+        - paymetns
+        - group_id
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        evented_at:
+          type: string
+          format: date-time
+        created_by:
+          type: string
+        paid_by:
+          type: string
+        amount:
+          type: integer
+        paymetns:
+          type: array
+          items:
+            type: object
+            properties:
+              payment_id:
+                type: string
+              paid_to:
+                type: string
+              amount:
+                type: string
+            required:
+              - payment_id
+              - paid_to
+              - amount
+        group_id:
+          type: string
     EventUpdateRequest:
       type: object
       required:
@@ -1739,7 +1612,18 @@ components:
         payments:
           type: array
           items:
-            $ref: '#/components/schemas/payment'
+            type: object
+            properties:
+              payment_id:
+                type: string
+              paid_to:
+                type: string
+              amount:
+                type: integer
+            required:
+              - payment_id
+              - paid_to
+              - amount
           description: 立て替えてもらったユーザー
     EventsResponse:
       type: object
@@ -1749,7 +1633,33 @@ components:
         events:
           type: array
           items:
-            $ref: '#/components/schemas/Event'
+            type: object
+            properties:
+              id:
+                type: string
+              name:
+                type: string
+              evented_at:
+                type: string
+                format: date-time
+              paid_by:
+                type: object
+                properties:
+                  id:
+                    type: string
+                  name:
+                    type: string
+                required:
+                  - id
+                  - name
+              amount:
+                type: integer
+            required:
+              - id
+              - name
+              - evented_at
+              - paid_by
+              - amount
     Group:
       type: object
       required:
@@ -1888,17 +1798,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/User'
-    payment:
-      type: object
-      required:
-        - user
-        - amount
-      properties:
-        user:
-          type: string
-        amount:
-          type: integer
-      description: 建て替えてもらうユーザーの型
   securitySchemes:
     BearerAuth:
       type: http
