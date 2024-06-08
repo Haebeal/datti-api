@@ -1537,7 +1537,6 @@ components:
         - name
         - email
         - photoUrl
-        - bank
         - status
       properties:
         uid:
@@ -1554,10 +1553,6 @@ components:
         photoUrl:
           type: string
           description: 画像URL
-        bank:
-          allOf:
-            - $ref: '#/components/schemas/Bank'
-          description: 口座情報
         status:
           type: string
           enum:
@@ -1574,7 +1569,6 @@ components:
       required:
         - name
         - photoUrl
-        - bank
       properties:
         name:
           type: string
@@ -1582,10 +1576,6 @@ components:
         photoUrl:
           type: string
           description: 画像URL
-        bank:
-          allOf:
-            - $ref: '#/components/schemas/Bank'
-          description: 口座情報
     UsersResponse:
       type: object
       required:
