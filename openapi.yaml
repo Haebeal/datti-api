@@ -180,44 +180,17 @@ paths:
     get:
       tags:
         - Groups
-      operationId: Groups_getGroups
+      operationId: GroupEndpoints_getGroups
       summary: 所属しているグループ情報の取得
       description: 所属しているグループの取得
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - groups
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  groups:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/Group'
-                    description: グループ
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Group'
         '401':
           description: 401エラー
           content:
@@ -245,46 +218,17 @@ paths:
     post:
       tags:
         - Groups
-      operationId: Groups_postGroup
+      operationId: GroupEndpoints_postGroup
       summary: グループの作成
       description: グループの作成
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: グループID
-                  name:
-                    type: string
-                    description: グループ名
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Group'
         '401':
           description: 401エラー
           content:
@@ -319,7 +263,7 @@ paths:
     get:
       tags:
         - Groups
-      operationId: Groups_getGroup
+      operationId: GroupEndpoints_getGroup
       summary: グループ情報の取得
       description: グループ情報の取得
       parameters:
@@ -330,40 +274,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: グループID
-                  name:
-                    type: string
-                    description: グループ名
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Group'
         '401':
           description: 401エラー
           content:
@@ -391,7 +306,7 @@ paths:
     put:
       tags:
         - Groups
-      operationId: Groups_putGroup
+      operationId: GroupEndpoints_putGroup
       summary: グループ情報の更新
       description: グループ情報の更新
       parameters:
@@ -402,40 +317,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: グループID
-                  name:
-                    type: string
-                    description: グループ名
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Group'
         '401':
           description: 401エラー
           content:
@@ -720,7 +606,7 @@ paths:
     get:
       tags:
         - Groups
-      operationId: Groups_getGroupMembers
+      operationId: GroupEndpoints_getGroupMembers
       summary: グループに対するメンバー情報の取得
       description: グループに対するメンバー情報の取得
       parameters:
@@ -763,7 +649,7 @@ paths:
     post:
       tags:
         - Groups
-      operationId: Groups_registedUsers
+      operationId: GroupEndpoints_registedUsers
       summary: グループに対するメンバーの招待
       description: グループに対するメンバーの追加
       parameters:
@@ -774,40 +660,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - id
-                  - name
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  id:
-                    type: string
-                    description: グループID
-                  name:
-                    type: string
-                    description: グループ名
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Group'
         '401':
           description: 401エラー
           content:
@@ -1309,18 +1166,6 @@ components:
               - email
               - photoUrl
               - status
-    GroupResponse:
-      type: object
-      required:
-        - id
-        - name
-      properties:
-        id:
-          type: string
-          description: グループID
-        name:
-          type: string
-          description: グループ名
     GroupUpdateRequest:
       type: object
       required:
@@ -1329,7 +1174,7 @@ components:
         name:
           type: string
           description: グループ名
-    GroupsResponse:
+    Groups:
       type: object
       required:
         - groups
