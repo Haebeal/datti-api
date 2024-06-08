@@ -181,37 +181,11 @@ paths:
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - users
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/UsersResponse'
         '401':
           description: 401エラー
           content:
@@ -311,37 +285,11 @@ paths:
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - users
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/UsersResponse'
         '401':
           description: 401エラー
           content:
@@ -1093,37 +1041,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - users
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/UsersResponse'
         '401':
           description: 401エラー
           content:
@@ -1158,64 +1080,11 @@ paths:
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - uid
-                  - name
-                  - email
-                  - photoUrl
-                  - bank
-                  - status
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  uid:
-                    type: string
-                    minLength: 28
-                    maxLength: 28
-                    description: ユーザーID
-                  name:
-                    type: string
-                    description: ユーザー名
-                  email:
-                    type: string
-                    description: メールアドレス
-                  photoUrl:
-                    type: string
-                    description: 画像URL
-                  bank:
-                    allOf:
-                      - $ref: '#/components/schemas/Bank'
-                    description: 口座情報
-                  status:
-                    type: string
-                    enum:
-                      - me
-                      - applying
-                      - requesting
-                      - none
-                    description: フレンド状態のステータス
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -1249,64 +1118,11 @@ paths:
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - uid
-                  - name
-                  - email
-                  - photoUrl
-                  - bank
-                  - status
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  uid:
-                    type: string
-                    minLength: 28
-                    maxLength: 28
-                    description: ユーザーID
-                  name:
-                    type: string
-                    description: ユーザー名
-                  email:
-                    type: string
-                    description: メールアドレス
-                  photoUrl:
-                    type: string
-                    description: 画像URL
-                  bank:
-                    allOf:
-                      - $ref: '#/components/schemas/Bank'
-                    description: 口座情報
-                  status:
-                    type: string
-                    enum:
-                      - me
-                      - applying
-                      - requesting
-                      - none
-                    description: フレンド状態のステータス
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -1352,64 +1168,11 @@ paths:
             type: string
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - uid
-                  - name
-                  - email
-                  - photoUrl
-                  - bank
-                  - status
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  uid:
-                    type: string
-                    minLength: 28
-                    maxLength: 28
-                    description: ユーザーID
-                  name:
-                    type: string
-                    description: ユーザー名
-                  email:
-                    type: string
-                    description: メールアドレス
-                  photoUrl:
-                    type: string
-                    description: 画像URL
-                  bank:
-                    allOf:
-                      - $ref: '#/components/schemas/Bank'
-                    description: 口座情報
-                  status:
-                    type: string
-                    enum:
-                      - me
-                      - applying
-                      - requesting
-                      - none
-                    description: フレンド状態のステータス
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/User'
         '401':
           description: 401エラー
           content:
@@ -1694,8 +1457,39 @@ components:
         members:
           type: array
           items:
-            $ref: '#/components/schemas/User'
-          description: ユーザー情報
+            type: object
+            properties:
+              uid:
+                type: string
+                minLength: 28
+                maxLength: 28
+                description: ユーザーID
+              name:
+                type: string
+                description: ユーザー名
+              email:
+                type: string
+                description: メールアドレス
+              photoUrl:
+                type: string
+                description: 画像URL
+              status:
+                type: string
+                enum:
+                  - me
+                  - applying
+                  - requesting
+                  - none
+                  - applying
+                  - requesting
+                  - none
+                description: フレンド状態のステータス
+            required:
+              - uid
+              - name
+              - email
+              - photoUrl
+              - status
     GroupResponse:
       type: object
       required:
@@ -1768,6 +1562,9 @@ components:
           type: string
           enum:
             - me
+            - applying
+            - requesting
+            - none
             - applying
             - requesting
             - none
