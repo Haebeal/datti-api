@@ -532,7 +532,7 @@ paths:
     get:
       tags:
         - Payments
-      operationId: Payments_getPayments
+      operationId: PaymentEndpoints_getPayments
       summary: 支払い一覧情報の取得
       description: 支払い一覧情報の取得
       parameters: []
@@ -570,7 +570,7 @@ paths:
     post:
       tags:
         - Payments
-      operationId: Payments_postPayments
+      operationId: PaymentEndpoints_postPayments
       summary: 支払い情報の登録
       description: 支払い情報の登録
       parameters: []
@@ -615,7 +615,7 @@ paths:
     get:
       tags:
         - Payments
-      operationId: Payments_getPayment
+      operationId: PaymentEndpoints_getPayment
       summary: 支払い情報の取得
       description: 支払い情報の取得
       parameters:
@@ -658,7 +658,7 @@ paths:
     put:
       tags:
         - Payments
-      operationId: Payments_putPayments
+      operationId: PaymentEndpoints_putPayments
       summary: 支払い情報の更新
       description: 支払い情報の更新
       parameters:
@@ -707,7 +707,7 @@ paths:
     delete:
       tags:
         - Payments
-      operationId: Payments_deletePayments
+      operationId: PaymentEndpoints_deletePayments
       summary: 支払い情報の削除
       description: 支払い情報の削除
       parameters:
