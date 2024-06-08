@@ -13,7 +13,7 @@ paths:
     get:
       tags:
         - Friends
-      operationId: Friends_getFriend
+      operationId: FriendEndpoints_getFriend
       summary: フレンドのユーザーを取得
       description: フレンドのユーザーを取得
       parameters: []
@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersResponse'
+                $ref: '#/components/schemas/Friends'
         '401':
           description: 401エラー
           content:
@@ -52,43 +52,17 @@ paths:
     get:
       tags:
         - Friends
-      operationId: Friends_getPendingFriendRequest
+      operationId: FriendEndpoints_getPendingFriendRequest
       summary: フレンド申請未承認のユーザーを取得
       description: フレンド申請未承認のユーザーを取得
       parameters: []
       responses:
         '200':
-          description: 200レスポンス
+          description: The request has succeeded.
           content:
             application/json:
               schema:
-                type: object
-                required:
-                  - users
-                  - createdAt
-                  - updatedAt
-                  - deletedAt
-                properties:
-                  users:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/User'
-                  createdAt:
-                    type: string
-                    format: date-time
-                    description: 作成時間
-                  updatedAt:
-                    type: string
-                    format: date-time
-                    description: 更新時間
-                  deletedAt:
-                    type: string
-                    format: date-time
-                    nullable: true
-                    description: |-
-                      削除時間
-                      論理削除されていない場合はnull
-                description: 正常完了時、レコードを返す場合のボディ
+                $ref: '#/components/schemas/Friends'
         '401':
           description: 401エラー
           content:
@@ -117,7 +91,7 @@ paths:
     get:
       tags:
         - Friends
-      operationId: Friends_getFriendRequest
+      operationId: FriendEndpoints_getFriendRequest
       summary: フレンド申請中のユーザーを取得
       description: フレンド申請中のユーザーを取得
       parameters: []
@@ -127,7 +101,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersResponse'
+                $ref: '#/components/schemas/Friends'
         '401':
           description: 401エラー
           content:
@@ -156,7 +130,7 @@ paths:
     delete:
       tags:
         - Friends
-      operationId: Friends_unRegisterFriend
+      operationId: FriendEndpoints_unRegisterFriend
       summary: フレンドの登録解除
       description: フレンドの登録解除
       parameters:
@@ -1239,6 +1213,35 @@ components:
               - evented_at
               - paid_by
               - amount
+    Friends:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              uid:
+                type: string
+                minLength: 28
+                maxLength: 28
+                description: ユーザーID
+              name:
+                type: string
+                description: ユーザー名
+              email:
+                type: string
+                description: メールアドレス
+              photoUrl:
+                type: string
+                description: 画像URL
+            required:
+              - uid
+              - name
+              - email
+              - photoUrl
     Group:
       type: object
       required:
