@@ -7,6 +7,7 @@ tags:
   - name: Users
   - name: Groups
   - name: Events
+  - name: Payments
 paths:
   /groups:
     get:
@@ -527,6 +528,231 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/Members'
+  /payments:
+    get:
+      tags:
+        - Payments
+      operationId: Payments_getPayments
+      summary: 支払い一覧情報の取得
+      description: 支払い一覧情報の取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentUserList'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    post:
+      tags:
+        - Payments
+      operationId: Payments_postPayments
+      summary: 支払い情報の登録
+      description: 支払い情報の登録
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentsRequest'
+  /payments/{payId}:
+    get:
+      tags:
+        - Payments
+      operationId: Payments_getPayment
+      summary: 支払い情報の取得
+      description: 支払い情報の取得
+      parameters:
+        - name: payId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+    put:
+      tags:
+        - Payments
+      operationId: Payments_putPayments
+      summary: 支払い情報の更新
+      description: 支払い情報の更新
+      parameters:
+        - name: payId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Payment'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentsRequest'
+    delete:
+      tags:
+        - Payments
+      operationId: Payments_deletePayments
+      summary: 支払い情報の削除
+      description: 支払い情報の削除
+      parameters:
+        - name: payId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
   /users:
     get:
       tags:
@@ -1120,6 +1346,68 @@ components:
           items:
             type: string
           description: UID
+    Payment:
+      type: object
+      required:
+        - paid_at
+        - paid_to
+        - paid_by
+        - amount
+      properties:
+        paid_at:
+          type: string
+          format: date-time
+          description: 支払い日
+        paid_to:
+          allOf:
+            - $ref: '#/components/schemas/User'
+          description: 支払い先のユーザー情報
+        paid_by:
+          allOf:
+            - $ref: '#/components/schemas/User'
+          description: 支払い元のユーザー情報
+        amount:
+          type: string
+          description: 支払い金額
+    PaymentUser:
+      type: object
+      required:
+        - user
+        - amount
+      properties:
+        user:
+          allOf:
+            - $ref: '#/components/schemas/User'
+          description: ユーザー情報
+        amount:
+          type: string
+          description: 支払い額
+    PaymentUserList:
+      type: object
+      required:
+        - payments
+      properties:
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentUser'
+    PaymentsRequest:
+      type: object
+      required:
+        - paid_at
+        - paid_to
+        - amount
+      properties:
+        paid_at:
+          type: string
+          format: date-time
+          description: 支払い日
+        paid_to:
+          type: string
+          description: 支払い先のユーザー情報
+        amount:
+          type: string
+          description: 支払い金額
     User:
       type: object
       required:
