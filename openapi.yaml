@@ -5,177 +5,9 @@ info:
   description: 誰にいくら払ったっけ？を記録するサービス
 tags:
   - name: Users
-  - name: Friends
   - name: Groups
   - name: Events
 paths:
-  /friends:
-    get:
-      tags:
-        - Friends
-      operationId: FriendEndpoints_getFriend
-      summary: フレンドのユーザーを取得
-      description: フレンドのユーザーを取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Friends'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-  /friends/pendings:
-    get:
-      tags:
-        - Friends
-      operationId: FriendEndpoints_getPendingFriendRequest
-      summary: フレンド申請未承認のユーザーを取得
-      description: フレンド申請未承認のユーザーを取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Friends'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-  /friends/requests:
-    get:
-      tags:
-        - Friends
-      operationId: FriendEndpoints_getFriendRequest
-      summary: フレンド申請中のユーザーを取得
-      description: フレンド申請中のユーザーを取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Friends'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-  /friends/{userId}:
-    delete:
-      tags:
-        - Friends
-      operationId: FriendEndpoints_unRegisterFriend
-      summary: フレンドの登録解除
-      description: フレンドの登録解除
-      parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 200レスポンス
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - message
-                properties:
-                  message:
-                    type: string
-                description: 正常完了時、メッセージのみを返す場合のボディ
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
   /groups:
     get:
       tags:
@@ -699,11 +531,16 @@ paths:
     get:
       tags:
         - Users
-      operationId: Users_getUserByEmail
+      operationId: UserEndpoints_getUserByEmail
       summary: メールアドレスによるユーザー情報の取得
       description: メールアドレスによるユーザー情報の取得
       parameters:
         - name: email
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: status
           in: query
           required: false
           schema:
@@ -739,11 +576,100 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
+  /users/friends:
+    get:
+      tags:
+        - Users
+      operationId: UserEndpoints_getFriend
+      summary: フレンドのユーザーを取得
+      description: フレンドのユーザーを取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Friends'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+  /users/friends/{userId}:
+    delete:
+      tags:
+        - Users
+      operationId: UserEndpoints_unRegisterFriend
+      summary: フレンドの登録解除
+      description: フレンドの登録解除
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
   /users/me:
     get:
       tags:
         - Users
-      operationId: Users_getMe
+      operationId: UserEndpoints_getMe
       summary: ユーザー情報（自分）の取得
       description: ユーザー情報の取得
       parameters: []
@@ -781,7 +707,7 @@ paths:
     put:
       tags:
         - Users
-      operationId: Users_updateMe
+      operationId: UserEndpoints_updateMe
       summary: ユーザー情報（自分）の更新
       description: ユーザー情報の更新
       parameters: []
@@ -826,7 +752,7 @@ paths:
     get:
       tags:
         - Users
-      operationId: Users_getUserByUid
+      operationId: UserEndpoints_getUserByUid
       summary: UIDによるユーザー情報の取得
       description: プロフィール情報の取得
       parameters:
@@ -870,7 +796,7 @@ paths:
     post:
       tags:
         - Users
-      operationId: Users_friendRequest
+      operationId: UserEndpoints_friendRequest
       summary: フレンド申請の送信
       description: フレンド申請の送信
       parameters:
