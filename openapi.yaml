@@ -1376,11 +1376,24 @@ components:
         - amount
       properties:
         user:
-          allOf:
-            - $ref: '#/components/schemas/User'
+          type: object
+          properties:
+            uid:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            photoUrl:
+              type: string
+          required:
+            - uid
+            - name
+            - email
+            - photoUrl
           description: ユーザー情報
         amount:
-          type: string
+          type: integer
           description: 支払い額
     PaymentUserList:
       type: object
