@@ -542,7 +542,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PaymentUserList'
+                $ref: '#/components/schemas/PaymentUsers'
         '401':
           description: 401エラー
           content:
@@ -610,7 +610,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentsRequest'
+              $ref: '#/components/schemas/PaymentCreate'
   /payments/{payId}:
     get:
       tags:
@@ -703,7 +703,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PaymentsRequest'
+              $ref: '#/components/schemas/PaymentUpdate'
     delete:
       tags:
         - Payments
@@ -1349,6 +1349,76 @@ components:
     Payment:
       type: object
       required:
+        - id
+        - paid_at
+        - paid_to
+        - paid_by
+        - amount
+      properties:
+        id:
+          type: string
+          description: 支払いID
+        paid_at:
+          type: string
+          format: date-time
+          description: 支払い日
+        paid_to:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            photoUrl:
+              type: string
+          required:
+            - id
+            - name
+            - email
+            - photoUrl
+          description: 支払い先のユーザー情報
+        paid_by:
+          type: object
+          properties:
+            id:
+              type: string
+            name:
+              type: string
+            email:
+              type: string
+            photoUrl:
+              type: string
+          required:
+            - id
+            - name
+            - email
+            - photoUrl
+          description: 支払い元のユーザー情報
+        amount:
+          type: integer
+          description: 支払い金額
+    PaymentCreate:
+      type: object
+      required:
+        - paid_at
+        - paid_to
+        - amount
+      properties:
+        paid_at:
+          type: string
+          format: date-time
+          description: 支払い日
+        paid_to:
+          type: string
+          description: 支払い先のユーザ-ID
+        amount:
+          type: integer
+          description: 支払い金額
+    PaymentUpdate:
+      type: object
+      required:
         - paid_at
         - paid_to
         - paid_by
@@ -1359,15 +1429,13 @@ components:
           format: date-time
           description: 支払い日
         paid_to:
-          allOf:
-            - $ref: '#/components/schemas/User'
-          description: 支払い先のユーザー情報
-        paid_by:
-          allOf:
-            - $ref: '#/components/schemas/User'
-          description: 支払い元のユーザー情報
-        amount:
           type: string
+          description: 支払い先のユーザ-ID
+        paid_by:
+          type: string
+          description: 支払い元のユーザー
+        amount:
+          type: integer
           description: 支払い金額
     PaymentUser:
       type: object
@@ -1395,7 +1463,7 @@ components:
         amount:
           type: integer
           description: 支払い額
-    PaymentUserList:
+    PaymentUsers:
       type: object
       required:
         - payments
@@ -1404,23 +1472,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PaymentUser'
-    PaymentsRequest:
-      type: object
-      required:
-        - paid_at
-        - paid_to
-        - amount
-      properties:
-        paid_at:
-          type: string
-          format: date-time
-          description: 支払い日
-        paid_to:
-          type: string
-          description: 支払い先のユーザー情報
-        amount:
-          type: string
-          description: 支払い金額
     User:
       type: object
       required:
