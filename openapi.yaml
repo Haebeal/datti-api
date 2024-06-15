@@ -781,6 +781,11 @@ paths:
           required: false
           schema:
             type: string
+            enum:
+              - me
+              - applying
+              - requesting
+              - none
       responses:
         '200':
           description: The request has succeeded.
@@ -1318,9 +1323,6 @@ components:
                   - applying
                   - requesting
                   - none
-                  - applying
-                  - requesting
-                  - none
                 description: フレンド状態のステータス
             required:
               - uid
@@ -1509,9 +1511,6 @@ components:
           type: string
           enum:
             - me
-            - applying
-            - requesting
-            - none
             - applying
             - requesting
             - none
