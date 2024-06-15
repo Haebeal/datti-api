@@ -457,6 +457,7 @@ paths:
               - me
               - applying
               - requesting
+              - friend
               - none
       responses:
         '200':
@@ -785,6 +786,7 @@ paths:
               - me
               - applying
               - requesting
+              - friend
               - none
       responses:
         '200':
@@ -1343,6 +1345,7 @@ components:
             - me
             - applying
             - requesting
+            - friend
             - none
           description: フレンド状態のステータス
     Payment:
@@ -1518,6 +1521,7 @@ components:
             - me
             - applying
             - requesting
+            - friend
             - none
           description: フレンド状態のステータス
     UserEndpoints.Friends:
@@ -1578,6 +1582,7 @@ components:
             - me
             - applying
             - requesting
+            - friend
             - none
           description: フレンド状態のステータス
     UserEndpoints.UserPutRequest:
