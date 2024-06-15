@@ -1,8 +1,8 @@
 openapi: 3.0.0
 info:
   title: Datti API
-  version: 1.0.0
   description: 誰にいくら払ったっけ？を記録するサービス
+  version: 0.0.0
 tags:
   - name: Users
   - name: Groups
@@ -204,7 +204,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventsResponse'
+                $ref: '#/components/schemas/EventEndpoints.EventsResponse'
         '401':
           description: 401エラー
           content:
@@ -247,7 +247,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventResponse'
+                $ref: '#/components/schemas/EventEndpoints.EventResponse'
         '401':
           description: 401エラー
           content:
@@ -277,7 +277,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventCreateRequest'
+              $ref: '#/components/schemas/EventEndpoints.EventPostRequest'
   /groups/{groupId}/events/{eventId}:
     get:
       tags:
@@ -302,7 +302,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventResponse'
+                $ref: '#/components/schemas/EventEndpoints.EventResponse'
         '401':
           description: 401エラー
           content:
@@ -350,7 +350,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/EventResponse'
+                $ref: '#/components/schemas/EventEndpoints.EventResponse'
         '401':
           description: 401エラー
           content:
@@ -380,7 +380,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/EventUpdateRequest'
+              $ref: '#/components/schemas/EventEndpoints.EventPutRequest'
     delete:
       tags:
         - Events
@@ -1087,7 +1087,9 @@ security:
   - BearerAuth: []
 components:
   schemas:
-    EventCreateRequest:
+    Event:
+      type: object
+    EventEndpoints.EventPostRequest:
       type: object
       required:
         - name
@@ -1122,7 +1124,45 @@ components:
               - paid_to
               - amount
           description: 立て替えてもらったユーザー
-    EventResponse:
+    EventEndpoints.EventPutRequest:
+      type: object
+      required:
+        - name
+        - evented_at
+        - paid_by
+        - amount
+        - payments
+      properties:
+        name:
+          type: string
+          description: イベント名
+        evented_at:
+          type: string
+          format: date-time
+          description: イベントの日付
+        paid_by:
+          type: string
+          description: 立て替えたユーザー
+        amount:
+          type: integer
+          description: 立て替えた金額
+        payments:
+          type: array
+          items:
+            type: object
+            properties:
+              payment_id:
+                type: string
+              paid_to:
+                type: string
+              amount:
+                type: integer
+            required:
+              - payment_id
+              - paid_to
+              - amount
+          description: 立て替えてもらったユーザー
+    EventEndpoints.EventResponse:
       type: object
       required:
         - id
@@ -1164,45 +1204,7 @@ components:
               - amount
         group_id:
           type: string
-    EventUpdateRequest:
-      type: object
-      required:
-        - name
-        - evented_at
-        - paid_by
-        - amount
-        - payments
-      properties:
-        name:
-          type: string
-          description: イベント名
-        evented_at:
-          type: string
-          format: date-time
-          description: イベントの日付
-        paid_by:
-          type: string
-          description: 立て替えたユーザー
-        amount:
-          type: integer
-          description: 立て替えた金額
-        payments:
-          type: array
-          items:
-            type: object
-            properties:
-              payment_id:
-                type: string
-              paid_to:
-                type: string
-              amount:
-                type: integer
-            required:
-              - payment_id
-              - paid_to
-              - amount
-          description: 立て替えてもらったユーザー
-    EventsResponse:
+    EventEndpoints.EventsResponse:
       type: object
       required:
         - events
@@ -1361,37 +1363,49 @@ components:
           description: 支払い日
         paid_to:
           type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            email:
-              type: string
-            photoUrl:
-              type: string
           required:
-            - id
+            - uid
             - name
             - email
             - photoUrl
+          properties:
+            uid:
+              type: string
+              minLength: 28
+              maxLength: 28
+              description: ユーザーID
+            name:
+              type: string
+              description: ユーザー名
+            email:
+              type: string
+              description: メールアドレス
+            photoUrl:
+              type: string
+              description: 画像URL
           description: 支払い先のユーザー情報
         paid_by:
           type: object
-          properties:
-            id:
-              type: string
-            name:
-              type: string
-            email:
-              type: string
-            photoUrl:
-              type: string
           required:
-            - id
+            - uid
             - name
             - email
             - photoUrl
+          properties:
+            uid:
+              type: string
+              minLength: 28
+              maxLength: 28
+              description: ユーザーID
+            name:
+              type: string
+              description: ユーザー名
+            email:
+              type: string
+              description: メールアドレス
+            photoUrl:
+              type: string
+              description: 画像URL
           description: 支払い元のユーザー情報
         amount:
           type: integer
@@ -1442,20 +1456,26 @@ components:
       properties:
         user:
           type: object
-          properties:
-            uid:
-              type: string
-            name:
-              type: string
-            email:
-              type: string
-            photoUrl:
-              type: string
           required:
             - uid
             - name
             - email
             - photoUrl
+          properties:
+            uid:
+              type: string
+              minLength: 28
+              maxLength: 28
+              description: ユーザーID
+            name:
+              type: string
+              description: ユーザー名
+            email:
+              type: string
+              description: メールアドレス
+            photoUrl:
+              type: string
+              description: 画像URL
           description: ユーザー情報
         amount:
           type: integer
