@@ -23,7 +23,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupEndpoints.GroupsGetResponse'
         '401':
           description: 401エラー
           content:
@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupEndpoints.GroupGetResponse'
         '401':
           description: 401エラー
           content:
@@ -91,7 +91,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GroupCreateRequest'
+              $ref: '#/components/schemas/GroupEndpoints.GroupPostRequest'
   /groups/{groupId}:
     get:
       tags:
@@ -111,7 +111,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupEndpoints.GroupGetResponse'
         '401':
           description: 401エラー
           content:
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupEndpoints.GroupGetResponse'
         '401':
           description: 401エラー
           content:
@@ -184,7 +184,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/GroupUpdateRequest'
+              $ref: '#/components/schemas/GroupEndpoints.GroupPutRequest'
   /groups/{groupId}/events:
     get:
       tags:
@@ -464,7 +464,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupMembers'
+                $ref: '#/components/schemas/GroupEndpoints.MembersGetResponse'
         '401':
           description: 401エラー
           content:
@@ -507,7 +507,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Group'
+                $ref: '#/components/schemas/GroupEndpoints.GroupGetResponse'
         '401':
           description: 401エラー
           content:
@@ -537,7 +537,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Members'
+              $ref: '#/components/schemas/GroupEndpoints.MembersPostRequest'
   /payments:
     get:
       tags:
@@ -1278,7 +1278,19 @@ components:
         name:
           type: string
           description: グループ名
-    GroupCreateRequest:
+    GroupEndpoints.GroupGetResponse:
+      type: object
+      required:
+        - id
+        - name
+      properties:
+        id:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+    GroupEndpoints.GroupPostRequest:
       type: object
       required:
         - name
@@ -1292,45 +1304,7 @@ components:
           items:
             type: string
           description: UID
-    GroupMembers:
-      type: object
-      required:
-        - members
-      properties:
-        members:
-          type: array
-          items:
-            type: object
-            properties:
-              uid:
-                type: string
-                minLength: 28
-                maxLength: 28
-                description: ユーザーID
-              name:
-                type: string
-                description: ユーザー名
-              email:
-                type: string
-                description: メールアドレス
-              photoUrl:
-                type: string
-                description: 画像URL
-              status:
-                type: string
-                enum:
-                  - me
-                  - applying
-                  - requesting
-                  - none
-                description: フレンド状態のステータス
-            required:
-              - uid
-              - name
-              - email
-              - photoUrl
-              - status
-    GroupUpdateRequest:
+    GroupEndpoints.GroupPutRequest:
       type: object
       required:
         - name
@@ -1338,7 +1312,7 @@ components:
         name:
           type: string
           description: グループ名
-    Groups:
+    GroupEndpoints.GroupsGetResponse:
       type: object
       required:
         - groups
@@ -1348,7 +1322,16 @@ components:
           items:
             $ref: '#/components/schemas/Group'
           description: グループ
-    Members:
+    GroupEndpoints.MembersGetResponse:
+      type: object
+      required:
+        - members
+      properties:
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
+    GroupEndpoints.MembersPostRequest:
       type: object
       required:
         - uids
@@ -1358,6 +1341,37 @@ components:
           items:
             type: string
           description: UID
+    Member:
+      type: object
+      required:
+        - uid
+        - name
+        - email
+        - photoUrl
+        - status
+      properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: ユーザーID
+        name:
+          type: string
+          description: ユーザー名
+        email:
+          type: string
+          description: メールアドレス
+        photoUrl:
+          type: string
+          description: 画像URL
+        status:
+          type: string
+          enum:
+            - me
+            - applying
+            - requesting
+            - none
+          description: フレンド状態のステータス
     Payment:
       type: object
       required:
