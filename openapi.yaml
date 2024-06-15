@@ -792,7 +792,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UsersResponse'
+                $ref: '#/components/schemas/UserEndpoints.UsersGetResponse'
         '401':
           description: 401エラー
           content:
@@ -831,7 +831,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Friends'
+                $ref: '#/components/schemas/UserEndpoints.Friends'
         '401':
           description: 401エラー
           content:
@@ -920,7 +920,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserEndpoints.UserGetResponse'
         '401':
           description: 401エラー
           content:
@@ -958,7 +958,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserEndpoints.UserGetResponse'
         '401':
           description: 401エラー
           content:
@@ -988,7 +988,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserUpdateRequest'
+              $ref: '#/components/schemas/UserEndpoints.UserPutRequest'
   /users/{userId}:
     get:
       tags:
@@ -1008,7 +1008,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'
+                $ref: '#/components/schemas/UserEndpoints.UserGetResponse'
         '401':
           description: 401エラー
           content:
@@ -1237,35 +1237,6 @@ components:
               - evented_at
               - paid_by
               - amount
-    Friends:
-      type: object
-      required:
-        - users
-      properties:
-        users:
-          type: array
-          items:
-            type: object
-            properties:
-              uid:
-                type: string
-                minLength: 28
-                maxLength: 28
-                description: ユーザーID
-              name:
-                type: string
-                description: ユーザー名
-              email:
-                type: string
-                description: メールアドレス
-              photoUrl:
-                type: string
-                description: 画像URL
-            required:
-              - uid
-              - name
-              - email
-              - photoUrl
     Group:
       type: object
       required:
@@ -1529,7 +1500,67 @@ components:
             - requesting
             - none
           description: フレンド状態のステータス
-    UserUpdateRequest:
+    UserEndpoints.Friends:
+      type: object
+      required:
+        - users
+      properties:
+        users:
+          type: array
+          items:
+            type: object
+            properties:
+              uid:
+                type: string
+                minLength: 28
+                maxLength: 28
+                description: ユーザーID
+              name:
+                type: string
+                description: ユーザー名
+              email:
+                type: string
+                description: メールアドレス
+              photoUrl:
+                type: string
+                description: 画像URL
+            required:
+              - uid
+              - name
+              - email
+              - photoUrl
+    UserEndpoints.UserGetResponse:
+      type: object
+      required:
+        - uid
+        - name
+        - email
+        - photoUrl
+        - status
+      properties:
+        uid:
+          type: string
+          minLength: 28
+          maxLength: 28
+          description: ユーザーID
+        name:
+          type: string
+          description: ユーザー名
+        email:
+          type: string
+          description: メールアドレス
+        photoUrl:
+          type: string
+          description: 画像URL
+        status:
+          type: string
+          enum:
+            - me
+            - applying
+            - requesting
+            - none
+          description: フレンド状態のステータス
+    UserEndpoints.UserPutRequest:
       type: object
       required:
         - name
@@ -1541,7 +1572,7 @@ components:
         photoUrl:
           type: string
           description: 画像URL
-    UsersResponse:
+    UserEndpoints.UsersGetResponse:
       type: object
       required:
         - users
