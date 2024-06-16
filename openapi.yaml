@@ -622,6 +622,47 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PaymentCreate'
+  /payments/history:
+    get:
+      tags:
+        - Payments
+      operationId: PaymentEndpoints_getHistory
+      summary: 支払い履歴の取得
+      description: 返済履歴の取得
+      parameters: []
+      responses:
+        '200':
+          description: The request has succeeded.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Payment'
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
   /payments/{payId}:
     get:
       tags:
