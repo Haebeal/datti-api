@@ -707,7 +707,7 @@ paths:
       tags:
         - Users
       operationId: UserEndpoints_getUserByEmail
-      summary: メールアドレスによるユーザー情報の取得
+      summary: ユーザー情報の取得
       description: メールアドレスによるユーザー情報の取得
       parameters:
         - name: email
@@ -733,45 +733,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/UserEndpoints.UsersGetResponse'
-        '401':
-          description: 401エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-        '500':
-          description: 500エラー
-          content:
-            application/json:
-              schema:
-                type: object
-                required:
-                  - error
-                properties:
-                  error:
-                    type: string
-                description: エラーレスポンスのボディ
-  /users/friends:
-    get:
-      tags:
-        - Users
-      operationId: UserEndpoints_getFriend
-      summary: フレンドのユーザーを取得
-      description: フレンドのユーザーを取得
-      parameters: []
-      responses:
-        '200':
-          description: The request has succeeded.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/UserEndpoints.Friends'
         '401':
           description: 401エラー
           content:
