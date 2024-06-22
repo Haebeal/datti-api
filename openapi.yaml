@@ -1113,7 +1113,6 @@ components:
               amount:
                 type: integer
             required:
-              - payment_id
               - paid_to
               - amount
           description: 立て替えてもらったユーザー
