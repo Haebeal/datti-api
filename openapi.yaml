@@ -381,6 +381,60 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/EventEndpoints.EventPutRequest'
+    delete:
+      tags:
+        - Events
+      operationId: EventEndpoints_deleteEvent
+      summary: イベント情報の削除
+      description: イベント情報の削除
+      parameters:
+        - name: groupId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 200レスポンス
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - message
+                properties:
+                  message:
+                    type: string
+                description: 正常完了時、メッセージのみを返す場合のボディ
+        '401':
+          description: 401エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
+        '500':
+          description: 500エラー
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - error
+                properties:
+                  error:
+                    type: string
+                description: エラーレスポンスのボディ
   /groups/{groupId}/members:
     get:
       tags:
@@ -1025,7 +1079,6 @@ components:
               - paid_to
               - amount
           description: 立て替えてもらったユーザー
-      description: イベント情報の削除
     EventEndpoints.EventPutRequest:
       type: object
       required:
