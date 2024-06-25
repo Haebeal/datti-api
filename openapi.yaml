@@ -1319,12 +1319,12 @@ components:
         paid_to:
           type: object
           required:
-            - uid
+            - userId
             - name
             - email
             - photoUrl
           properties:
-            uid:
+            userId:
               type: string
               minLength: 28
               maxLength: 28
@@ -1342,12 +1342,12 @@ components:
         paid_by:
           type: object
           required:
-            - uid
+            - userId
             - name
             - email
             - photoUrl
           properties:
-            uid:
+            userId:
               type: string
               minLength: 28
               maxLength: 28
@@ -1412,12 +1412,12 @@ components:
         user:
           type: object
           required:
-            - uid
+            - userId
             - name
             - email
             - photoUrl
           properties:
-            uid:
+            userId:
               type: string
               minLength: 28
               maxLength: 28
@@ -1447,13 +1447,13 @@ components:
     User:
       type: object
       required:
-        - uid
+        - userId
         - name
         - email
         - photoUrl
         - status
       properties:
-        uid:
+        userId:
           type: string
           minLength: 28
           maxLength: 28
@@ -1486,7 +1486,7 @@ components:
           items:
             type: object
             properties:
-              uid:
+              userId:
                 type: string
                 minLength: 28
                 maxLength: 28
@@ -1501,20 +1501,20 @@ components:
                 type: string
                 description: 画像URL
             required:
-              - uid
+              - userId
               - name
               - email
               - photoUrl
     UserEndpoints.UserGetResponse:
       type: object
       required:
-        - uid
+        - userId
         - name
         - email
         - photoUrl
         - status
       properties:
-        uid:
+        userId:
           type: string
           minLength: 28
           maxLength: 28
