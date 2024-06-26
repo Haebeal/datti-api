@@ -1196,10 +1196,10 @@ components:
     Group:
       type: object
       required:
-        - id
+        - groupId
         - name
       properties:
-        id:
+        groupId:
           type: string
           description: グループID
         name:
@@ -1208,10 +1208,10 @@ components:
     GroupEndpoints.GroupGetResponse:
       type: object
       required:
-        - id
+        - groupId
         - name
       properties:
-        id:
+        groupId:
           type: string
           description: グループID
         name:
@@ -1221,16 +1221,16 @@ components:
       type: object
       required:
         - name
-        - uids
+        - userIds
       properties:
         name:
           type: string
           description: グループ名
-        uids:
+        userIds:
           type: array
           items:
             type: string
-          description: UID
+          description: ユーザーID
     GroupEndpoints.GroupPutRequest:
       type: object
       required:
@@ -1261,23 +1261,23 @@ components:
     GroupEndpoints.MembersPostRequest:
       type: object
       required:
-        - uids
+        - userIds
       properties:
-        uids:
+        userIds:
           type: array
           items:
             type: string
-          description: UID
+          description: ユーザーID
     Member:
       type: object
       required:
-        - uid
+        - userId
         - name
         - email
         - photoUrl
         - status
       properties:
-        uid:
+        userId:
           type: string
           minLength: 28
           maxLength: 28
