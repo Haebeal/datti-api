@@ -544,8 +544,8 @@ paths:
       tags:
         - Payments
       operationId: PaymentEndpoints_getPayments
-      summary: 支払い一覧情報の取得
-      description: 支払い一覧情報の取得
+      summary: 返済情報一覧の取得
+      description: 返済一覧情報の取得
       parameters: []
       responses:
         '200':
@@ -582,8 +582,8 @@ paths:
       tags:
         - Payments
       operationId: PaymentEndpoints_postPayments
-      summary: 支払い情報の登録
-      description: 支払い情報の登録
+      summary: 返済情報の登録
+      description: 返済情報の登録
       parameters: []
       responses:
         '200':
@@ -627,7 +627,7 @@ paths:
       tags:
         - Payments
       operationId: PaymentEndpoints_getHistory
-      summary: 支払い履歴の取得
+      summary: 返済履歴の取得
       description: 返済履歴の取得
       parameters: []
       responses:
@@ -668,8 +668,8 @@ paths:
       tags:
         - Payments
       operationId: PaymentEndpoints_getPayment
-      summary: 支払い情報の取得
-      description: 支払い情報の取得
+      summary: 返済情報の取得
+      description: 返済情報の取得
       parameters:
         - name: paymentId
           in: path
@@ -711,8 +711,8 @@ paths:
       tags:
         - Payments
       operationId: PaymentEndpoints_putPayments
-      summary: 支払い情報の更新
-      description: 支払い情報の更新
+      summary: 返済情報の更新
+      description: 返済情報の更新
       parameters:
         - name: paymentId
           in: path
@@ -1311,11 +1311,11 @@ components:
       properties:
         paymentId:
           type: string
-          description: 支払いID
+          description: 返済ID
         paidAt:
           type: string
           format: date-time
-          description: 支払い日
+          description: 返済日
         paidTo:
           type: object
           required:
@@ -1338,7 +1338,7 @@ components:
             photoUrl:
               type: string
               description: 画像URL
-          description: 支払い先のユーザー情報
+          description: 返済先のユーザー情報
         paidBy:
           type: object
           required:
@@ -1361,10 +1361,10 @@ components:
             photoUrl:
               type: string
               description: 画像URL
-          description: 支払い元のユーザー情報
+          description: 返済元のユーザー情報
         amount:
           type: integer
-          description: 支払い金額
+          description: 返済金額
     PaymentCreate:
       type: object
       required:
@@ -1375,13 +1375,13 @@ components:
         paidAt:
           type: string
           format: date-time
-          description: 支払い日
+          description: 返済日
         paidTo:
           type: string
-          description: 支払い先のユーザ-ID
+          description: 返済先のユーザ-ID
         amount:
           type: integer
-          description: 支払い金額
+          description: 返済金額
     PaymentUpdate:
       type: object
       required:
@@ -1393,16 +1393,16 @@ components:
         paidAt:
           type: string
           format: date-time
-          description: 支払い日
+          description: 返済日
         paidTo:
           type: string
-          description: 支払い先のユーザ-ID
+          description: 返済先のユーザ-ID
         paidBy:
           type: string
-          description: 支払い元のユーザー
+          description: 返済元のユーザー
         amount:
           type: integer
-          description: 支払い金額
+          description: 返済金額
     PaymentUser:
       type: object
       required:
@@ -1434,7 +1434,7 @@ components:
           description: ユーザー情報
         amount:
           type: integer
-          description: 支払い額
+          description: 返済額
     PaymentUsers:
       type: object
       required:
