@@ -663,7 +663,7 @@ paths:
                   error:
                     type: string
                 description: エラーレスポンスのボディ
-  /payments/{payId}:
+  /payments/{paymentId}:
     get:
       tags:
         - Payments
@@ -671,7 +671,7 @@ paths:
       summary: 支払い情報の取得
       description: 支払い情報の取得
       parameters:
-        - name: payId
+        - name: paymentId
           in: path
           required: true
           schema:
@@ -714,7 +714,7 @@ paths:
       summary: 支払い情報の更新
       description: 支払い情報の更新
       parameters:
-        - name: payId
+        - name: paymentId
           in: path
           required: true
           schema:
@@ -1048,19 +1048,19 @@ components:
       type: object
       required:
         - name
-        - evented_at
-        - paid_by
+        - eventedAt
+        - paidBy
         - amount
         - payments
       properties:
         name:
           type: string
           description: イベント名
-        evented_at:
+        eventedAt:
           type: string
           format: date-time
           description: イベントの日付
-        paid_by:
+        paidBy:
           type: string
           description: 立て替えたユーザー
         amount:
@@ -1071,31 +1071,31 @@ components:
           items:
             type: object
             properties:
-              paid_to:
+              paidTo:
                 type: string
               amount:
                 type: integer
             required:
-              - paid_to
+              - paidTo
               - amount
           description: 立て替えてもらったユーザー
     EventEndpoints.EventPutRequest:
       type: object
       required:
         - name
-        - evented_at
-        - paid_by
+        - eventedAt
+        - paidBy
         - amount
         - payments
       properties:
         name:
           type: string
           description: イベント名
-        evented_at:
+        eventedAt:
           type: string
           format: date-time
           description: イベントの日付
-        paid_by:
+        paidBy:
           type: string
           description: 立て替えたユーザー
         amount:
@@ -1106,38 +1106,38 @@ components:
           items:
             type: object
             properties:
-              payment_id:
+              paymentId:
                 type: string
-              paid_to:
+              paidTo:
                 type: string
               amount:
                 type: integer
             required:
-              - paid_to
+              - paidTo
               - amount
           description: 立て替えてもらったユーザー
     EventEndpoints.EventResponse:
       type: object
       required:
-        - id
+        - eventId
         - name
-        - evented_at
-        - created_by
-        - paid_by
+        - eventedAt
+        - createdBy
+        - paidBy
         - amount
         - paymetns
-        - group_id
+        - groupId
       properties:
-        id:
+        eventId:
           type: string
         name:
           type: string
-        evented_at:
+        eventedAt:
           type: string
           format: date-time
-        created_by:
+        createdBy:
           type: string
-        paid_by:
+        paidBy:
           type: string
         amount:
           type: integer
@@ -1146,17 +1146,17 @@ components:
           items:
             type: object
             properties:
-              payment_id:
+              paymentId:
                 type: string
-              paid_to:
+              paidTo:
                 type: string
               amount:
                 type: string
             required:
-              - payment_id
-              - paid_to
+              - paymentId
+              - paidTo
               - amount
-        group_id:
+        groupId:
           type: string
     EventEndpoints.EventsResponse:
       type: object
@@ -1168,30 +1168,30 @@ components:
           items:
             type: object
             properties:
-              id:
+              eventId:
                 type: string
               name:
                 type: string
-              evented_at:
+              eventedAt:
                 type: string
                 format: date-time
-              paid_by:
+              paidBy:
                 type: object
                 properties:
-                  id:
+                  userId:
                     type: string
                   name:
                     type: string
                 required:
-                  - id
+                  - userId
                   - name
               amount:
                 type: integer
             required:
-              - id
+              - eventId
               - name
-              - evented_at
-              - paid_by
+              - eventedAt
+              - paidBy
               - amount
     Group:
       type: object
@@ -1303,20 +1303,20 @@ components:
     Payment:
       type: object
       required:
-        - id
-        - paid_at
-        - paid_to
-        - paid_by
+        - paymentId
+        - paidAt
+        - paidTo
+        - paidBy
         - amount
       properties:
-        id:
+        paymentId:
           type: string
           description: 支払いID
-        paid_at:
+        paidAt:
           type: string
           format: date-time
           description: 支払い日
-        paid_to:
+        paidTo:
           type: object
           required:
             - userId
@@ -1339,7 +1339,7 @@ components:
               type: string
               description: 画像URL
           description: 支払い先のユーザー情報
-        paid_by:
+        paidBy:
           type: object
           required:
             - userId
@@ -1368,15 +1368,15 @@ components:
     PaymentCreate:
       type: object
       required:
-        - paid_at
-        - paid_to
+        - paidAt
+        - paidTo
         - amount
       properties:
-        paid_at:
+        paidAt:
           type: string
           format: date-time
           description: 支払い日
-        paid_to:
+        paidTo:
           type: string
           description: 支払い先のユーザ-ID
         amount:
@@ -1385,19 +1385,19 @@ components:
     PaymentUpdate:
       type: object
       required:
-        - paid_at
-        - paid_to
-        - paid_by
+        - paidAt
+        - paidTo
+        - paidBy
         - amount
       properties:
-        paid_at:
+        paidAt:
           type: string
           format: date-time
           description: 支払い日
-        paid_to:
+        paidTo:
           type: string
           description: 支払い先のユーザ-ID
-        paid_by:
+        paidBy:
           type: string
           description: 支払い元のユーザー
         amount:
