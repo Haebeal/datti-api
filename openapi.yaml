@@ -61,7 +61,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupEndpoints.GroupGetResponse'
+                $ref: '#/components/schemas/GroupEndpoints.GroupPostResponse'
         '401':
           description: 401エラー
           content:
@@ -508,7 +508,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GroupEndpoints.GroupGetResponse'
+                $ref: '#/components/schemas/GroupEndpoints.GroupPostResponse'
         '401':
           description: 401エラー
           content:
@@ -1231,6 +1231,23 @@ components:
           items:
             type: string
           description: ユーザーID
+    GroupEndpoints.GroupPostResponse:
+      type: object
+      required:
+        - groupId
+        - name
+        - members
+      properties:
+        groupId:
+          type: string
+          description: グループID
+        name:
+          type: string
+          description: グループ名
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/Member'
     GroupEndpoints.GroupPutRequest:
       type: object
       required:
