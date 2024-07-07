@@ -636,9 +636,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Payment'
+                $ref: '#/components/schemas/Payments'
         '401':
           description: 401エラー
           content:
@@ -1461,6 +1459,15 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/PaymentUser'
+    Payments:
+      type: object
+      required:
+        - payments
+      properties:
+        payments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Payment'
     User:
       type: object
       required:
