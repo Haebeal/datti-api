@@ -778,6 +778,21 @@ paths:
               - requesting
               - friend
               - none
+        - name: cursor
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+        - name: getNext
+          in: query
+          required: false
+          schema:
+            type: boolean
       responses:
         '200':
           description: The request has succeeded.
@@ -1040,6 +1055,18 @@ security:
   - BearerAuth: []
 components:
   schemas:
+    Cursor:
+      type: object
+      required:
+        - startCursor
+        - endCursor
+      properties:
+        startCursor:
+          type: string
+          description: 始端カーソル
+        endCursor:
+          type: string
+          description: 終端カーソル
     Event:
       type: object
     EventEndpoints.EventPostRequest:
@@ -1577,11 +1604,14 @@ components:
       type: object
       required:
         - users
+        - cursor
       properties:
         users:
           type: array
           items:
             $ref: '#/components/schemas/User'
+        cursor:
+          $ref: '#/components/schemas/Cursor'
   securitySchemes:
     BearerAuth:
       type: http
